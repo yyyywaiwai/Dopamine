@@ -18,26 +18,26 @@ import Fugu15KernelExploit
 struct ContentView: View {
     @State var logText = ""
     @State private var showingRemoveFrame = RemoveFuguInstall.shouldShow()
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 Divider()
-                
+
                 TabView {
                     JailbreakView(logText: $logText)
                         .tabItem {
-                            Label("Jailbreak", systemImage: "wand.and.stars")
+                            Label("越狱", systemImage: "wand.and.stars")
                         }
-                    
+
                     LogView(logText: $logText)
                         .tabItem {
-                            Label("Log", systemImage: "doc.text.magnifyingglass")
+                            Label("日志", systemImage: "doc.text.magnifyingglass")
                         }
-                    
+
                     AboutView()
                         .tabItem {
-                            Label("About", systemImage: "info.circle")
+                            Label("关于", systemImage: "info.circle")
                         }
                 }
                     .sheet(isPresented: $showingRemoveFrame) {

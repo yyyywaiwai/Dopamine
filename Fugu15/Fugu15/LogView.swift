@@ -9,13 +9,13 @@ import SwiftUI
 
 struct LogView: View {
     @Binding var logText: String
-    
+
     var body: some View {
         ScrollViewReader { reader in
             ZStack {
-                Text("Nothing here yet...")
+                Text("啥也没有...")
                     .opacity(logText.count > 0 ? 0 : 1)
-                
+
                 ScrollView{
                     Text(logText)
                         .padding([.leading, .trailing])
@@ -43,7 +43,7 @@ struct LogView: View {
 
 struct LogView_Previews: PreviewProvider {
     @State static var logText = "Example log text\nLine 2\nLine 3"
-    
+
     static var previews: some View {
         LogView(logText: $logText)
     }
