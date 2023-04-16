@@ -46,7 +46,7 @@ struct AboutView: View {
                         )
                         .padding(.bottom)
 
-                    Text("Fugu15 乃针对 iOS 15.0 - 15.4.1 设计的（尚未完成的）越狱，它支持 iPhone XS 及更新的设备。")
+                    Text("Fugu15 是针对 iOS 15.0 - 15.4.1 设计的（尚未完成的）越狱，它支持 iPhone XS 及更新的设备。")
                         .multilineTextAlignment(.center)
                         .frame(width: descriptionMaxWidth)
                 }

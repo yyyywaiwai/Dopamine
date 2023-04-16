@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CD40FCD29EC0E79001D379C /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD40FCC29EC0E79001D379C /* constants.m */; };
+		0CD40FCF29EC0EC5001D379C /* constants.h in Sources */ = {isa = PBXBuildFile; fileRef = 0CD40FCE29EC0EC5001D379C /* constants.h */; };
 		1502A40C2891B03F0011CB6E /* Fugu15App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502A40B2891B03F0011CB6E /* Fugu15App.swift */; };
 		1502A40E2891B03F0011CB6E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502A40D2891B03F0011CB6E /* ContentView.swift */; };
 		1502A4102891B0410011CB6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1502A40F2891B0410011CB6E /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CD40FCC29EC0E79001D379C /* constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = constants.m; path = Fugu15/constants.m; sourceTree = "<group>"; };
+		0CD40FCE29EC0EC5001D379C /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = constants.h; path = Fugu15/constants.h; sourceTree = "<group>"; };
 		1502A4082891B03F0011CB6E /* Fugu15.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fugu15.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1502A40B2891B03F0011CB6E /* Fugu15App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fugu15App.swift; sourceTree = "<group>"; };
 		1502A40D2891B03F0011CB6E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 		1502A3FF2891B03F0011CB6E = {
 			isa = PBXGroup;
 			children = (
+				0CD40FCE29EC0EC5001D379C /* constants.h */,
+				0CD40FCC29EC0E79001D379C /* constants.m */,
 				1502A4252891BE320011CB6E /* oobPCI */,
 				1502A4212891BD790011CB6E /* Fugu15KernelExploit */,
 				1502A42A2891BF130011CB6E /* Makefile */,
@@ -246,6 +252,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CD40FCF29EC0EC5001D379C /* constants.h in Sources */,
+				0CD40FCD29EC0E79001D379C /* constants.m in Sources */,
 				151CAFB52894070300B2A6BA /* AboutView.swift in Sources */,
 				1502A40E2891B03F0011CB6E /* ContentView.swift in Sources */,
 				151CAFB32894041D00B2A6BA /* main.swift in Sources */,
