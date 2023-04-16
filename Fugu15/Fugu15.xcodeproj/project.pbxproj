@@ -405,7 +405,7 @@
 					"-framework",
 					IOKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = de.pinauten.Fugu15;
+				PRODUCT_BUNDLE_IDENTIFIER = page.liam.Fugu15Max;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Fugu15/Fugu15-Bridging-Header.h";
@@ -447,7 +447,7 @@
 					"-framework",
 					IOKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = de.pinauten.Fugu15;
+				PRODUCT_BUNDLE_IDENTIFIER = page.liam.Fugu15Max;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Fugu15/Fugu15-Bridging-Header.h";
