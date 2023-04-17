@@ -69,6 +69,7 @@ struct AboutView: View {
             Spacer()
 
             Text("编译版本: " + Constants.commitShortHash())
+            Text("编译时间: " + Constants.compileTime())
 
             Group {
                 Image("PinautenLogo")
