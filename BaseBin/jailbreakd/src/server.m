@@ -292,7 +292,23 @@ int64_t initEnvironment(NSDictionary *settings)
     JBLogDebug("Does not detected .nofont, start to bind mount the font path.");
     int ret = registerJbPrefixedPath(@"/System/Library/Fonts");
     if (ret > 0) {
-      return 8  ret;
+      return 8 + ret;
+    }
+  }
+
+  NSString *prefixersPlist = @"/var/mobile/prefixers.plist";
+  if (![[NSFileManager defaultManager] fileExistsAtPath:prefixersPlist]) {
+    NSArray *paths = [[NSArray alloc] initWithObjects:nil];
+    NSDictionary *map = [[NSDictionary alloc] initWithObjectsAndKeys:paths, @"source", nil];
+    [map writeToFile:prefixersPlist atomically:YES];
+  }
+
+  NSDictionary *sorucePathDict = [[NSDictionary alloc] initWithContentsOfFile:prefixersPlist];
+  if (sorucePathDict) {
+    NSArray *sourchPaths = [sorucePathDict objectForKey:@"source"];
+    for (int i = 0; i < [sourchPaths count]; i++) {
+      // we do not care, if any of these paths failed to register.
+      registerJbPrefixedPath([sourchPaths objectAtIndex:i]);
     }
   }
 
