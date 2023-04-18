@@ -162,9 +162,15 @@ struct JailbreakView: View {
                     })
             }
             Spacer()
-            Text("长按以激活 Haptic Touch 菜单，显示更多内容。")
-            .multilineTextAlignment(.center)
-            .padding(.bottom, 25)
+
+            Group {
+                Text("长按以激活 Haptic Touch 菜单，显示更多内容。")
+                    .multilineTextAlignment(.center)
+                    .padding(.leading, 100)
+                    .padding(.trailing, 100)
+                    .padding(.bottom)
+                    .frame(maxHeight: 100)
+            }.padding(.bottom, 25)
         }
     }
 
