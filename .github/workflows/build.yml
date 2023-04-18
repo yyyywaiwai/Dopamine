@@ -50,6 +50,7 @@ jobs:
           sed -i '' "s/COMPILE_TIME=\`TZ=UTC-8 date \\\\\"+%Y%m%d_%H%M%S\\\\\"\`/COMPILE_TIME=${{ env.ctime }}/g" ./Fugu15/Makefile
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
           make
+          cp Fugu15/Fugu15.tipa Fugu15-Max_Liam.ipa
           mv Fugu15/Fugu15.tipa Fugu15-Max_${{ env.shorthash }}_${{ env.ctime }}.ipa
 
       - name: Auto Release
