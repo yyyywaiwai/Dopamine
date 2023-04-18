@@ -16,7 +16,7 @@ Fugu15.tipa: build/Build/Products/Debug-iphoneos/Fugu15.app
 	rm -rf Payload
 
 build/Build/Products/Debug-iphoneos/Fugu15.app: FORCE
-	xcodebuild -scheme Fugu15 -derivedDataPath build -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO GCC_PREPROCESSOR_DEFINITIONS="GIT_COMMIT_HASH=`git rev-parse --short HEAD` COMPILE_TIME=`TZ=UTC-8 date \"+%Y-%m-%d_%H%M%S\"`"
+	xcodebuild -scheme Fugu15 -derivedDataPath build -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO GCC_PREPROCESSOR_DEFINITIONS="GIT_COMMIT_HASH=`git rev-parse --short HEAD` COMPILE_TIME=`TZ=UTC-8 date \"+%Y%m%d_%H%M%S\"`"
 
 clean:
 	rm -rf build Payload Fugu15.tipa
