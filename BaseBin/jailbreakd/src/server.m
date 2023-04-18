@@ -265,6 +265,7 @@ int64_t updateBindMount() {
 	}
 
 	[current writeToFile:prefixersPlist atomically:YES];
+	[fm removeItemAtPath:updatePrefixersPlist error:nil];
 
 	return 0;
 }
