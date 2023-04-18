@@ -1,4 +1,4 @@
-name: build_Release
+name: build and release automatically
 
 on:
   push:
@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
@@ -34,6 +36,7 @@ jobs:
          T8=$(TZ=UTC-8 date +'%Y-%m-%d_%H%M%S')
          TS=$(date -j -f "%Y-%m-%d_%H%M%S" "${T8}" +%s)
          SHASH=$(git rev-parse --short HEAD)
+         git log --color --graph --pretty=format:'%h - %s (%cr) <%an>' --abbrev-commit origin/master.. > commit_logs.txt
          echo "ctime=${T8}" >> $GITHUB_ENV
          echo "ctimestamp=${TS}" >> $GITHUB_ENV
          echo "shorthash=${SHASH}" >> $GITHUB_ENV
@@ -43,7 +46,7 @@ jobs:
          echo ${{ env.ctime }}
          echo ${{ env.ctimestamp }}
          echo ${{ env.shorthash }}
-         echo ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+         cat ./commit_logs.txt
 
       - name: Build
         run: |
@@ -58,7 +61,7 @@ jobs:
         with:
           tag_name: auto_${{ env.ctimestamp }}
           name: "AutoRelease: ${{ env.shorthash }}_${{ env.ctime }}"
-          body: ${{ env.shorthash }} compiled at ${{ env.ctimestamp }}.
+          body_path: ./commit_logs.txt
           draft: false
           prerelease: false
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
