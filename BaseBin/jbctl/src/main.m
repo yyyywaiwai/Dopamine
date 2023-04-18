@@ -17,8 +17,7 @@ int main(int argc, char* argv[])
 		else {
 			printf("Failed to mark proc of pid %d as debugged\n", pid);
 		}
-	}
-	else if (!strcmp(cmd, "rebuild_trustcache")) {
+	} else if (!strcmp(cmd, "rebuild_trustcache")) {
 		jbdRebuildTrustCache();
 	} else if (!strcmp(cmd, "init_environment")) {
 		jbdInitEnvironment(nil);
@@ -40,6 +39,8 @@ int main(int argc, char* argv[])
 			printf("Update failed with error code %lld\n", result);
 			return result;
 		}
+	} else if (!strcmp(cmd, "update_bindmount")) {
+		jbdUpdateBindMount();
 	}
 
 	return 0;
