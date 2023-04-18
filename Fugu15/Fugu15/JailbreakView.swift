@@ -83,13 +83,13 @@ struct JailbreakView: View {
                         activeAlert = .hidden
                         showAlert = true
                     }, label: {
-                        Label("Hide Environment", systemImage: "eye.slash")
+                        Label("隐藏越狱（临退）", systemImage: "eye.slash")
                     })
                     Button(role: .destructive, action: {
                         activeAlert = .uninstall
                         showAlert = true
                     }, label: {
-                        Label("Uninstall Environment", systemImage: "trash")
+                        Label("删除越狱", systemImage: "trash")
                     })
                 }
                 .padding()
