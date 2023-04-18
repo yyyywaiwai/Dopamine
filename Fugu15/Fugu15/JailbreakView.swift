@@ -74,8 +74,10 @@ struct JailbreakView: View {
             })
                 .padding()
                 .frame(width:180, height: 50, alignment: .center)
-                .background(status.color())
                 .cornerRadius(10)
+                .background(LinearGradient(gradient: Gradient(colors: [status.color(), Color.green]),
+                                           startPoint: .leading,
+                                           endPoint: .trailing))
                 .foregroundColor(Color.white)
                 .disabled(status != .notStarted)
 
@@ -96,8 +98,10 @@ struct JailbreakView: View {
             })
                 .padding()
                 .frame(width:180, height: 50, alignment: .center)
-                .background(Color.green)
                 .cornerRadius(10)
+                .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]),
+                                           startPoint: .leading,
+                                           endPoint: .trailing))
                 .foregroundColor(Color.white)
 
             Button("软重启", action: {
@@ -105,8 +109,10 @@ struct JailbreakView: View {
             })
                 .padding()
                 .frame(width:180, height: 50, alignment: .center)
-                .background(Color.blue)
                 .cornerRadius(10)
+                .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.orange]),
+                                           startPoint: .leading,
+                                           endPoint: .trailing))
                 .foregroundColor(Color.white)
 
             Button("重启用户空间", action: {
@@ -114,8 +120,10 @@ struct JailbreakView: View {
             })
                 .padding()
                 .frame(width:180, height: 50, alignment: .center)
-                .background(Color.orange)
                 .cornerRadius(10)
+                .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.red]),
+                                           startPoint: .leading,
+                                           endPoint: .trailing))
                 .foregroundColor(Color.white)
 
             Button("重启", action: {
@@ -123,8 +131,9 @@ struct JailbreakView: View {
             })
                 .padding()
                 .frame(width:180, height: 50, alignment: .center)
-                .background(Color.red)
-                .cornerRadius(10)
+                .background(LinearGradient(gradient: Gradient(colors: [Color.red, Color.yellow]),
+                                           startPoint: .leading,
+                                           endPoint: .trailing))
                 .foregroundColor(Color.white)
         }.alert(isPresented: $showSuccessMsg) {
             Alert(
