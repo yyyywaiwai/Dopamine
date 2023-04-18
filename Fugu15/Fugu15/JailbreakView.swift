@@ -83,7 +83,7 @@ struct JailbreakView: View {
                         activeAlert = .hidden
                         showAlert = true
                     }, label: {
-                        Label("隐藏越狱（临退）", systemImage: "eye.slash")
+                        Label("隐藏越狱", systemImage: "eye.slash")
                     })
                     Button(role: .destructive, action: {
                         activeAlert = .uninstall
@@ -93,7 +93,6 @@ struct JailbreakView: View {
                     })
                 }
                 .padding()
-                .frame(width:180, height: 50, alignment: .center)
                 .background(status.color())
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
@@ -115,37 +114,26 @@ struct JailbreakView: View {
                 execCmd(args: ["/var/jb/usr/bin/killall", "-9", "backboardd"])
             })
                 .padding()
-                .frame(width:180, height: 50, alignment: .center)
                 .background(Color.cyan)
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
-
-            Button("软重启", action: {
-                execCmd(args: ["/var/jb/usr/bin/ldrestart"])
-            })
-                .padding()
-                .frame(width:180, height: 50, alignment: .center)
-                .background(Color.green)
-                .cornerRadius(10)
-                .foregroundColor(Color.white)
-
-            Button("重启用户空间", action: {
-                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
-            })
-                .padding()
-                .frame(width:180, height: 50, alignment: .center)
-                .background(Color.mint)
-                .cornerRadius(10)
-                .foregroundColor(Color.white)
-
-            Button("重启", action: {
-                execCmd(args: ["/var/jb/usr/sbin/reboot"])
-            })
-                .padding()
-                .frame(width:180, height: 50, alignment: .center)
-                .background(Color.red)
-                .cornerRadius(10)
-                .foregroundColor(Color.white)
+                .contextMenu {
+                    Button(action: {
+                        execCmd(args: ["/var/jb/usr/bin/ldrestart"])
+                    }, label: {
+                        Label("软重启", systemImage: "restart")
+                    })
+                    Button(action: {
+                        execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
+                    }, label: {
+                        Label("重启用户空间", systemImage: "restart.circle")
+                    })
+                    Button(role: .destructive, action: {
+                        execCmd(args: ["/var/jb/usr/sbin/reboot"])
+                    }, label: {
+                        Label("重启", systemImage: "restart.circle.fill")
+                    })
+                }
         }.alert(isPresented: $showAlert) {
             switch activeAlert {
                 case .jailbroken:
@@ -173,6 +161,10 @@ struct JailbreakView: View {
                             execCmd(args: [CommandLine.arguments[0], "uninstall_environment"])
                     })
             }
+            Spacer()
+            Text("长按以激活 Haptic Touch 菜单，显示更多内容。")
+            .multilineTextAlignment(.center)
+            .padding(.bottom, 25)
         }
     }
 
