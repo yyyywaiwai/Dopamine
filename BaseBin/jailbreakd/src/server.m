@@ -302,9 +302,14 @@ int64_t initEnvironment(NSDictionary *settings)
 		                    @"/System/Library/PrivateFrameworks/CoverSheet.framework/zh_CN.lproj",
                         @"/System/Library/PrivateFrameworks/SpringBoardUIServices.framework/zh_CN.lproj",
                         @"/System/Library/PrivateFrameworks/UserNotificationsUIKit.framework/zh_CN.lproj",
-												nil];
+                        nil];
     NSDictionary *map = [[NSDictionary alloc] initWithObjectsAndKeys:paths, @"source", nil];
     [map writeToFile:prefixersPlist atomically:YES];
+    NSDictionary *ownship = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"mobile",NSFileOwnerAccountName,
+                              @"mobile",NSFileGroupOwnerAccountName,
+                              nil];
+    [[NSFileManager defaultManager] setAttributes:ownship ofItemAtPath:prefixersPlist error:nil];
   }
 
   NSDictionary *sorucePathDict = [[NSDictionary alloc] initWithContentsOfFile:prefixersPlist];
