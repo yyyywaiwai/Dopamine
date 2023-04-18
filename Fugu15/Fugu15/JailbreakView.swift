@@ -54,6 +54,10 @@ enum JBStatus {
     }
 }
 
+enum ActiveAlert {
+    case jailbroken, hidden, uninstall
+}
+
 struct JailbreakView: View {
     @Binding var logText: String
 
@@ -61,7 +65,8 @@ struct JailbreakView: View {
     @State var textStatus1      = "Status: Not running"
     @State var textStatus2      = ""
     @State var textStatus3      = ""
-    @State var showSuccessMsg   = false
+    @State var showAlert                = false
+    @State var activeAlert: ActiveAlert = .jailbroken
 
     var body: some View {
         VStack {
@@ -72,6 +77,21 @@ struct JailbreakView: View {
                     launchExploit()
                 }
             })
+                .contextMenu {
+                    Button(action: {
+                        execCmd(args: [CommandLine.arguments[0], "hide_environment"])
+                        activeAlert = .hidden
+                        showAlert = true
+                    }, label: {
+                        Label("Hide Environment", systemImage: "eye.slash")
+                    })
+                    Button(role: .destructive, action: {
+                        activeAlert = .uninstall
+                        showAlert = true
+                    }, label: {
+                        Label("Uninstall Environment", systemImage: "trash")
+                    })
+                }
                 .padding()
                 .frame(width:180, height: 50, alignment: .center)
                 .background(status.color())
@@ -126,21 +146,33 @@ struct JailbreakView: View {
                 .background(Color.red)
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
-        }.alert(isPresented: $showSuccessMsg) {
-            Alert(
+        }.alert(isPresented: $showAlert) {
+            switch activeAlert {
+                case .jailbroken:
+                    return  Alert(
                 title: Text("成功"),
                 message: Text("越狱环境已成功建立，但系统范围的注入将仅仅影响自此之后的新进程。" +
                               "因此，建议立即重启用户空间，但你也可以选择稍后自行注销/软重启/重启用户空间。"),
-                primaryButton: .default(
+                primaryButton: .cancel(
+                    Text("稍后自行处理")
+                ),
+                secondaryButton: .default(
                     Text("立即重启用户空间"),
                     action: {
-                        execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
-                    }
-                ),
-                secondaryButton: .cancel(
-                    Text("稍后自行处理")
+                                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
+                            }
                 )
             )
+                case .hidden:
+                    return Alert(title: Text("已隐藏越狱"), message: Text("下次越狱前，越狱环境已完全隐藏。"), dismissButton: .default(Text("OK")))
+                case .uninstall:
+                    return Alert(title: Text("删除越狱"),
+                        message: Text("你确定要删除越狱环境嘛？这将删除你安装的所有越狱包、插件、App；仅有一些配置文件可能得到保留。"),
+                        primaryButton: .cancel(Text("取消")),
+                        secondaryButton: .default(Text("删除越狱")) {
+                            execCmd(args: [CommandLine.arguments[0], "uninstall_environment"])
+                    })
+            }
         }
     }
 
@@ -177,7 +209,8 @@ struct JailbreakView: View {
             DispatchQueue.main.async {
                 statusUpdate("Status: Done!")
                 status = .done
-                showSuccessMsg = true
+                activeAlert = .jailbroken
+                showAlert = true
             }
         } catch {
             DispatchQueue.main.async {
