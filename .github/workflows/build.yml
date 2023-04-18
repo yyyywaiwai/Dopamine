@@ -36,7 +36,11 @@ jobs:
          T8=$(TZ=UTC-8 date +'%Y%m%d_%H%M%S')
          TS=$(date -j -f "%Y%m%d_%H%M%S" "${T8}" +%s)
          SHASH=$(git rev-parse --short HEAD)
-         git log --color --graph --pretty=format:'%h - %s <%an>' --abbrev-commit $(git describe --tags --abbrev=0).. > commit_logs.txt
+         echo "Git commit log since last tag:" > commit_logs.txt
+         echo "\`\`\`" >> commit_logs.txt
+         git log --graph --pretty=format:'%h - %s <%an>' --abbrev-commit $(git describe --tags --abbrev=0).. >> commit_logs.txt
+         echo "" >> commit_logs.txt
+         echo "\`\`\`" >> commit_logs.txt
          echo "ctime=${T8}" >> $GITHUB_ENV
          echo "ctimestamp=${TS}" >> $GITHUB_ENV
          echo "shorthash=${SHASH}" >> $GITHUB_ENV
