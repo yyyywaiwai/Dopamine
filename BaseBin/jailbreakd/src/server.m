@@ -239,6 +239,44 @@ int registerJbPrefixedPath(NSString *sourcePath) {
   return 0;
 }
 
+int64_t updateBindMount() {
+	NSString *prefixersPlist = @"/var/mobile/prefixers.plist";
+	NSString *updatePrefixersPlist = @"/var/mobile/update.prefixers.plist";
+
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if (![fm fileExistsAtPath:prefixersPlist]) {
+		return 1;
+	} else if (![fm fileExistsAtPath:updatePrefixersPlist]) {
+		return 2;
+	}
+
+	NSMutableDictionary* current = [[NSMutableDictionary alloc] initWithContentsOfFile:prefixersPlist];
+	NSDictionary* target = [[NSDictionary alloc] initWithContentsOfFile:updatePrefixersPlist];
+	NSMutableArray* current_sources = [current objectForKey:@"source"];
+	NSArray* target_sources = [target objectForKey:@"source"];
+	NSSet* dedup_set = [NSSet setWithArray:current_sources];
+	NSMutableArray* todo = [[NSMutableArray alloc] init];
+
+	// deduplicate, as target_sources might contain source paths that are already in current_sources
+	for (int i = 0; i != [target_sources count]; ++i) {
+		NSString* source = [target_sources objectAtIndex:i];
+		if (![dedup_set containsObject:source]) {
+			[todo addObject:source];
+		}
+	}
+
+	for (int i = 0; i != [todo count]; ++i) {
+		NSString* source = [todo objectAtIndex:i];
+		if (0 == registerJbPrefixedPath(source)) {
+			[current_sources addObject:source];
+		}
+	}
+
+	[current writeToFile:prefixersPlist atomically:YES];
+
+	return 0;
+}
+
 int64_t initEnvironment(NSDictionary *settings)
 {
 	NSString *fakeLibPath = @"/var/jb/basebin/.fakelib";
@@ -564,6 +602,17 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide)
 							result = apply_fork_fixup(clientPid, childPid, mightHaveDirtyPages);
 						}
 						else {
+							result = JBD_ERR_PRIMITIVE_NOT_INITIALIZED;
+						}
+						xpc_dictionary_set_int64(reply, "result", result);
+						break;
+					}
+
+					case JBD_MSG_UPDATE_BINDMOUNT: {
+						int64_t result = 0;
+						if (gPPLRWStatus == kPPLRWStatusInitialized && gKCallStatus == kKcallStatusFinalized) {
+							result = updateBindMount();
+						} else {
 							result = JBD_ERR_PRIMITIVE_NOT_INITIALIZED;
 						}
 						xpc_dictionary_set_int64(reply, "result", result);
