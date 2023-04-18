@@ -298,7 +298,11 @@ int64_t initEnvironment(NSDictionary *settings)
 
   NSString *prefixersPlist = @"/var/mobile/prefixers.plist";
   if (![[NSFileManager defaultManager] fileExistsAtPath:prefixersPlist]) {
-    NSArray *paths = [[NSArray alloc] initWithObjects:nil];
+    NSArray *paths = [[NSArray alloc] initWithObjects:
+		                    @"/System/Library/PrivateFrameworks/CoverSheet.framework/zh_CN.lproj",
+                        @"/System/Library/PrivateFrameworks/SpringBoardUIServices.framework/zh_CN.lproj",
+                        @"/System/Library/PrivateFrameworks/UserNotificationsUIKit.framework/zh_CN.lproj",
+												nil];
     NSDictionary *map = [[NSDictionary alloc] initWithObjectsAndKeys:paths, @"source", nil];
     [map writeToFile:prefixersPlist atomically:YES];
   }
