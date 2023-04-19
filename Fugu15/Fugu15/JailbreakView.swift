@@ -140,7 +140,7 @@ struct JailbreakView: View {
             Spacer()
 
             Group {
-                Text("Note: Long press to active the Haptic Touch menu.")
+                Text("Note: Long press button to active the Haptic Touch menu.")
                     .multilineTextAlignment(.center)
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
