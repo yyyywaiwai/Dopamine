@@ -1,4 +1,4 @@
-name: build and release automatically
+name: build, upload, and release
 
 on:
   push:
@@ -62,18 +62,29 @@ jobs:
           mv Fugu15/Fugu15.tipa Fugu15-Max_English_${{ env.shorthash }}_${{ env.ctime }}.ipa
           git stash
           git checkout patch-cn
-          git rebase patch
+          git rebase origin/patch
           git stash pop
           make
           cp Fugu15/Fugu15.tipa Fugu15-Max_Liam.ipa
           mv Fugu15/Fugu15.tipa Fugu15-Max_Chinese_${{ env.shorthash }}_${{ env.ctime }}.ipa
 
-      - name: Auto Release
+      - name: Upload
+        run: |
+          curl -L https://github.com/Mikubill/transfer/releases/latest/download/transfer_0.4.17_darwin_amd64.tar.gz | tar xz
+          chmod +x ./transfer
+          URL1=$(./transfer cat ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          echo "中文版分流镜像: <${URL1}>" >> ./release.log
+          URL2=$(./transfer cat ./Fugu15-Max_English.ipa | grep Download | cut -f3 -d' ')
+          echo "Mirror for English version: <${URL2}>" >> ./release.log
+          echo "" >> ./release.log
+          cat ./commit_logs.txt >> ./release.log
+
+      - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: auto_${{ env.ctimestamp }}
           name: "AutoRelease: ${{ env.shorthash }}_${{ env.ctime }}"
-          body_path: ./commit_logs.txt
+          body_path: ./release.log
           draft: false
           prerelease: false
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
