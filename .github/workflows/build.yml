@@ -55,6 +55,7 @@ jobs:
       - name: Build
         run: |
           sed -i '' "s/COMPILE_TIME=\`TZ=UTC-8 date \\\\\"+%Y%m%d_%H%M%S\\\\\"\`/COMPILE_TIME=${{ env.ctime }}/g" ./Fugu15/Makefile
+          sed -i '' "s/GIT_COMMIT_HASH=\`git rev-parse --short HEAD\`/GIT_COMMIT_HASH=${{ env.shorthash }}/g" ./Fugu15/Makefile
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
           make
           cp Fugu15/Fugu15.tipa Fugu15-Max_English.ipa
