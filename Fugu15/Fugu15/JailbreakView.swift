@@ -151,19 +151,19 @@ struct JailbreakView: View {
             switch activeAlert {
                 case .jailbroken:
                     return  Alert(
-                title: Text("成功"),
-                message: Text("越狱环境已成功建立，但系统范围的注入将仅仅影响自此之后的新进程。" +
-                              "因此，建议立即重启用户空间，但你也可以选择稍后自行注销/软重启/重启用户空间。"),
-                primaryButton: .cancel(
-                    Text("稍后自行处理")
-                ),
-                secondaryButton: .default(
-                    Text("立即重启用户空间"),
-                    action: {
-                                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
-                            }
-                )
-            )
+                        title: Text("成功"),
+                        message: Text("越狱环境已成功建立，但系统范围的注入将仅仅影响自此之后的新进程。" +
+                                    "因此，建议立即重启用户空间，但你也可以选择稍后自行注销/软重启/重启用户空间。"),
+                        primaryButton: .cancel(
+                            Text("稍后自行处理")
+                        ),
+                        secondaryButton: .default(
+                            Text("立即重启用户空间"),
+                            action: {
+                                        execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
+                                    }
+                        )
+                    )
                 case .hidden:
                     return Alert(title: Text("已隐藏越狱"), message: Text("下次越狱前，越狱环境已完全隐藏。"), dismissButton: .default(Text("OK")))
                 case .uninstall:
