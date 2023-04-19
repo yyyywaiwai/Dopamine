@@ -13,7 +13,7 @@ struct LogView: View {
     var body: some View {
         ScrollViewReader { reader in
             ZStack {
-                Text("Nothing here yet...")
+                Text("啥也没有...")
                     .opacity(logText.count > 0 ? 0 : 1)
 
                 ScrollView{

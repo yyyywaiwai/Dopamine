@@ -32,7 +32,7 @@ struct AboutView: View {
 
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text("Fugu15 Jailbreak Tool")
+                    Text("        Fugu15 越狱        ")
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                         .foregroundColor(.accentColor)
@@ -46,7 +46,7 @@ struct AboutView: View {
                         )
                         .padding(.bottom)
 
-                    Text("Fugu15 is an (incomplete) Jailbreak for iOS 15.0 - 15.4.1, supporting iPhone XS and newer.")
+                    Text("Fugu15 是针对 iOS 15.0 - 15.4.1 设计的（尚未完成的）越狱，它支持 iPhone XS 及更新的设备。")
                         .multilineTextAlignment(.center)
                         .frame(width: descriptionMaxWidth)
                 }
@@ -59,17 +59,17 @@ struct AboutView: View {
             // You should change the links below if you make any changes to Fugu15
             // so that others know where to find the source code
             //
-            Link("Source Code", destination: URL(string: "https://github.com/pinauten/Fugu15")!)
+            Link("源代码", destination: URL(string: "https://github.com/pinauten/Fugu15")!)
                 .padding([.top, .leading, .trailing])
-            Link("License", destination: URL(string: "https://github.com/pinauten/Fugu15/LICENSE")!)
+            Link("许可证", destination: URL(string: "https://github.com/pinauten/Fugu15/LICENSE")!)
                 .padding([.top, .leading, .trailing])
-            Link("Credits", destination: URL(string: "https://github.com/pinauten/Fugu15/blob/master/README.md#Credits")!)
+            Link("致谢", destination: URL(string: "https://github.com/pinauten/Fugu15/blob/master/README.md#Credits")!)
                 .padding([.top, .leading, .trailing])
 
             Spacer()
 
-            Text("Compile Version: " + Constants.commitShortHash())
-            Text("Compile Time: " + Constants.compileTime())
+            Text("编译版本: " + Constants.commitShortHash())
+            Text("编译时间: " + Constants.compileTime())
 
             Group {
                 Image("PinautenLogo")

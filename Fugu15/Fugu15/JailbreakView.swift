@@ -25,19 +25,19 @@ enum JBStatus {
     func text() -> String {
         switch self {
         case .notStarted:
-            return "Jailbreak"
+            return "越狱"
 
         case .unsupported:
-            return "Unsupported"
+            return "不支持"
 
         case .inProgress:
-            return "Jailbreaking..."
+            return "越狱中..."
 
         case .failed:
-            return "Error!"
+            return "错误!"
 
         case .done:
-            return "Jailbroken!"
+            return "已越狱!"
         }
     }
 
@@ -70,8 +70,8 @@ struct JailbreakView: View {
 
     @State var status: JBStatus = .notStarted
     @State var textStatus1      = "Status: Not running"
-    @State var textStatus2      = "Compile Version: " + Constants.commitShortHash()
-    @State var textStatus3      = "Compile Time: " + Constants.compileTime()
+    @State var textStatus2      = "编译版本: " + Constants.commitShortHash()
+    @State var textStatus3      = "编译时间: " + Constants.compileTime()
     @State var showAlert                = false
     @State var activeAlert: ActiveAlert = .jailbroken
 
@@ -92,13 +92,13 @@ struct JailbreakView: View {
                         activeAlert = .hidden
                         showAlert = true
                     }, label: {
-                        Label("Hide Environment", systemImage: "eye.slash")
+                        Label("隐藏越狱", systemImage: "eye.slash")
                     })
                     Button(role: .destructive, action: {
                         activeAlert = .uninstall
                         showAlert = true
                     }, label: {
-                        Label("Uninstall Environment", systemImage: "trash")
+                        Label("清除越狱", systemImage: "trash")
                     })
                 }
                 .padding()
@@ -119,7 +119,7 @@ struct JailbreakView: View {
                 .font(.footnote)
                 .opacity(0.4)
 
-            Button("Respring", action: {
+            Button("注销", action: {
                 execCmd(args: ["/var/jb/usr/bin/killall", "-9", "backboardd"])
             })
                 .padding()
@@ -130,17 +130,17 @@ struct JailbreakView: View {
                     Button(action: {
                         execCmd(args: ["/var/jb/usr/bin/ldrestart"])
                     }, label: {
-                        Label("ldrestart", systemImage: "restart")
+                        Label("软重启", systemImage: "restart")
                     })
                     Button(action: {
                         execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
                     }, label: {
-                        Label("reboot userspace", systemImage: "restart.circle")
+                        Label("重启用户空间", systemImage: "restart.circle")
                     })
                     Button(role: .destructive, action: {
                         execCmd(args: ["/var/jb/usr/sbin/reboot"])
                     }, label: {
-                        Label("reboot", systemImage: "restart.circle.fill")
+                        Label("重启", systemImage: "restart.circle.fill")
                     })
                 }
                 .disabled(!isJailbroken())
@@ -148,7 +148,7 @@ struct JailbreakView: View {
             Spacer()
 
             Group {
-                Text("Note: Long press button to active the Haptic Touch menu.")
+                Text("提示：长按按钮以激活 Haptic Touch 菜单，显示更多内容。")
                     .multilineTextAlignment(.center)
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
@@ -159,26 +159,26 @@ struct JailbreakView: View {
             switch activeAlert {
                 case .jailbroken:
                     return  Alert(
-                        title: Text("Success"),
-                        message: Text("Post environment started successfully, system wide injection will only affect newly spawned processes for now!" +
-                                    "Hence, reboot userspace is recommended; however, you can manually respring/ldrestart/reboot userspace later."),
+                        title: Text("成功"),
+                        message: Text("越狱环境已成功建立，但系统范围的注入将仅仅影响自此之后的新进程。" +
+                                    "因此，建议立即重启用户空间，但你也可以选择稍后自行注销/软重启/重启用户空间。"),
                         primaryButton: .cancel(
-                            Text("I'll do it later manually")
+                            Text("稍后自行处理")
                         ),
                         secondaryButton: .default(
-                            Text("Reboot userspace now"),
+                            Text("立即重启用户空间"),
                             action: {
-                                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
-                            }
+                                        execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
+                                    }
                         )
                     )
                 case .hidden:
-                    return Alert(title: Text("Environment Hidden"), message: Text("Jailbreak environment fully hidden until the next rejailbreak."), dismissButton: .default(Text("OK")))
+                    return Alert(title: Text("已隐藏越狱"), message: Text("下次越狱前，越狱环境已完全隐藏。"), dismissButton: .default(Text("OK")))
                 case .uninstall:
-                    return Alert(title: Text("Uninstall?"),
-                        message: Text("Are you sure you want to uninstall the jailbreak environment? This will delete everything about your jailbreak including packages, tweaks and apps."),
-                        primaryButton: .cancel(),
-                        secondaryButton: .default(Text("Uninstall Environment")) {
+                    return Alert(title: Text("删除越狱"),
+                        message: Text("你确定要删除越狱环境嘛？这将删除你安装的所有越狱包、插件、App；仅有一些配置文件可能得到保留。"),
+                        primaryButton: .cancel(Text("取消")),
+                        secondaryButton: .default(Text("删除越狱")) {
                             execCmd(args: [CommandLine.arguments[0], "uninstall_environment"])
                     })
             }
