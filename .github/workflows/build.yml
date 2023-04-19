@@ -72,19 +72,32 @@ jobs:
         run: |
           curl -L https://github.com/Mikubill/transfer/releases/latest/download/transfer_0.4.17_darwin_amd64.tar.gz | tar xz
           chmod +x ./transfer
-          URL1=$(./transfer cat ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
-          echo "中文版分流镜像: <${URL1}>" >> ./release.log
-          URL2=$(./transfer cat ./Fugu15-Max_English.ipa | grep Download | cut -f3 -d' ')
-          echo "Mirror for English version: <${URL2}>" >> ./release.log
-          echo "" >> ./release.log
-          cat ./commit_logs.txt >> ./release.log
+          echo "## 中文版分流镜像 | Mirror for Chinese version" >> ./release.md
+          echo "" >> ./release.md
+          DOWNLINK=$(./transfer trs ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          echo "* <${DOWNLINK}>" >> ./release.md
+          DOWNLINK=$(./transfer null ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          echo "* <${DOWNLINK}>" >> ./release.md
+          DOWNLINK=$(./transfer cat ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          echo "* <${DOWNLINK}>" >> ./release.md
+          DOWNLINK=$(./transfer lit ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          echo "* <${DOWNLINK}>" >> ./release.md
+
+
+          echo "" >> ./release.md
+          echo "----" >> ./release.md
+          echo "" >> ./release.md
+
+          echo "## Recent changes" >> ./release.md
+          echo "" >> ./release.md
+          cat ./commit_logs.txt >> ./release.md
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: auto_${{ env.ctimestamp }}
           name: "AutoRelease: ${{ env.shorthash }}_${{ env.ctime }}"
-          body_path: ./release.log
+          body_path: ./release.md
           draft: false
           prerelease: false
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
