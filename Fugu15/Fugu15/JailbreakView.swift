@@ -63,8 +63,8 @@ struct JailbreakView: View {
 
     @State var status: JBStatus = .notStarted
     @State var textStatus1      = "Status: Not running"
-    @State var textStatus2      = ""
-    @State var textStatus3      = ""
+    @State var textStatus2      = "Compile Version: " + Constants.commitShortHash()
+    @State var textStatus3      = "Compile Time: " + Constants.compileTime()
     @State var showAlert                = false
     @State var activeAlert: ActiveAlert = .jailbroken
 
