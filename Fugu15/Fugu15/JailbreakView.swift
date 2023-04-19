@@ -70,6 +70,8 @@ struct JailbreakView: View {
 
     var body: some View {
         VStack {
+            Spacer()
+
             Button(status.text(), action: {
                 status = .inProgress
 
@@ -134,6 +136,17 @@ struct JailbreakView: View {
                         Label("重启", systemImage: "restart.circle.fill")
                     })
                 }
+
+            Spacer()
+
+            Group {
+                Text("提示：长按以激活 Haptic Touch 菜单，显示更多内容。")
+                    .multilineTextAlignment(.center)
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
+                    .padding(.bottom)
+                    .frame(width: 360)
+            }.padding(.bottom, 25)
         }.alert(isPresented: $showAlert) {
             switch activeAlert {
                 case .jailbroken:
@@ -161,17 +174,7 @@ struct JailbreakView: View {
                             execCmd(args: [CommandLine.arguments[0], "uninstall_environment"])
                     })
             }
-
         }
-        Spacer()
-        Group {
-            Text("长按以激活 Haptic Touch 菜单，显示更多内容。")
-                .multilineTextAlignment(.center)
-                .padding(.leading, 100)
-                .padding(.trailing, 100)
-                .padding(.bottom)
-                .frame(maxHeight: 100)
-        }.padding(.bottom, 25)
     }
 
     func print(_ text: String, ender: String = "\n") {
