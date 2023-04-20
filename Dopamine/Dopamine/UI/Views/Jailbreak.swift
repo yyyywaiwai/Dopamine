@@ -39,9 +39,9 @@ func respring() {
 
 func userspaceReboot() {
     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-    
+
     // MARK: Fade out Animation
-    
+
     let view = UIView(frame: UIScreen.main.bounds)
     view.backgroundColor = .black
     view.alpha = 0
@@ -52,7 +52,7 @@ func userspaceReboot() {
             view.alpha = 1
         })
     }
-    
+
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
         guard let launchctlPath = rootifyPath(path: "/usr/bin/launchctl") else {
             return
@@ -65,9 +65,57 @@ func reboot() {
     _ = execCmd(args: [CommandLine.arguments[0], "reboot"])
 }
 
+func doLdrestart() {
+    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+
+    // MARK: Fade out Animation
+
+    let view = UIView(frame: UIScreen.main.bounds)
+    view.backgroundColor = .black
+    view.alpha = 0
+
+    for window in UIApplication.shared.connectedScenes.map({ $0 as? UIWindowScene }).compactMap({ $0 }).flatMap({ $0.windows.map { $0 } }) {
+        window.addSubview(view)
+        UIView.animate(withDuration: 0.2, delay: 0, animations: {
+            view.alpha = 1
+        })
+    }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+        guard let ldrestartPath = rootifyPath(path: "/usr/bin/ldrestart") else {
+            return
+        }
+        _ = execCmd(args: [ldrestartPath])
+    })
+}
+
+func doReboot() {
+    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+
+    // MARK: Fade out Animation
+
+    let view = UIView(frame: UIScreen.main.bounds)
+    view.backgroundColor = .black
+    view.alpha = 0
+
+    for window in UIApplication.shared.connectedScenes.map({ $0 as? UIWindowScene }).compactMap({ $0 }).flatMap({ $0.windows.map { $0 } }) {
+        window.addSubview(view)
+        UIView.animate(withDuration: 0.2, delay: 0, animations: {
+            view.alpha = 1
+        })
+    }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+        guard let rebootPath = rootifyPath(path: "/usr/sbin/reboot") else {
+            return
+        }
+        _ = execCmd(args: [rebootPath])
+    })
+}
+
 func isJailbroken() -> Bool {
     if isSandboxed() { return false } // ui debugging
-    
+
     var jbdPid: pid_t = 0
     jbdGetStatus(nil, nil, &jbdPid)
     return jbdPid != 0
@@ -75,7 +123,7 @@ func isJailbroken() -> Bool {
 
 func isBootstrapped() -> Bool {
     if isSandboxed() { return false } // ui debugging
-    
+
     return Bootstrapper.isBootstrapped()
 }
 
@@ -116,9 +164,9 @@ func jailbreak(completion: @escaping (Error?) -> ()) {
             setWifiEnabled(true)
             Logger.log("Enabling Wi-Fi", isStatus: true)
         }
-        
+
         try Fugu15.startEnvironment()
-        
+
         DispatchQueue.main.async {
             Logger.log(NSLocalizedString("Jailbreak_Done", comment: ""), type: .success, isStatus: true)
             completion(nil)
@@ -180,7 +228,7 @@ func update(tipaURL: URL) {
 
 func installedEnvironmentVersion() -> String {
     if isSandboxed() { return "1.0.3" } // ui debugging
-    
+
     return getBootInfoValue(key: "basebin-version") as? String ?? "1.0"
 }
 
@@ -192,6 +240,26 @@ func updateEnvironment() {
     jbdUpdateFromBasebinTar(Bundle.main.bundlePath + "/basebin.tar", true)
 }
 
+func doUpdateEnvironment() {
+    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+
+    // MARK: Fade out Animation
+
+    let view = UIView(frame: UIScreen.main.bounds)
+    view.backgroundColor = .black
+    view.alpha = 0
+
+    for window in UIApplication.shared.connectedScenes.map({ $0 as? UIWindowScene }).compactMap({ $0 }).flatMap({ $0.windows.map { $0 } }) {
+        window.addSubview(view)
+        UIView.animate(withDuration: 0.2, delay: 0, animations: {
+            view.alpha = 1
+        })
+    }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+        jbdUpdateFromBasebinTar(Bundle.main.bundlePath + "/basebin.tar", true)
+    })
+}
 
 // debugging
 func isSandboxed() -> Bool {
