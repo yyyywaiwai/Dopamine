@@ -37,6 +37,9 @@ struct AboutView: View {
                 Text("Credits_Made_By_Subheadline")
                     .font(.footnote)
                     .opacity(0.6)
+                Text("Credits_New_Icon_Subhedline")
+                    .font(.footnote)
+                    .opacity(0.4)
             }
             Divider()
                 .background(.white)
