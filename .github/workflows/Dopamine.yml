@@ -58,12 +58,22 @@ jobs:
 
       - name: Build
         run: |
-          # sed -i '' "s/COMPILE_TIME=\`TZ=UTC-8 date \\\\\"+%Y%m%d_%H%M%S\\\\\"\`/COMPILE_TIME=${{ env.ctime }}/g" ./Fugu15/Makefile
-          # sed -i '' "s/GIT_COMMIT_HASH=\`git rev-parse --short HEAD\`/GIT_COMMIT_HASH=${{ env.shorthash }}/g" ./Fugu15/Makefile
+          sed -i '' "s/COMPILE_TIME=\`TZ=UTC-8 date \\\\\"+%Y%m%d_%H%M%S\\\\\"\`/COMPILE_TIME=${{ env.ctime }}/g" ./Dopamine/Makefile
+          sed -i '' "s/GIT_COMMIT_HASH=\`git rev-parse --short HEAD\`/GIT_COMMIT_HASH=${{ env.shorthash }}/g" ./Dopamine/Makefile
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
+
           make
-          cp Dopamine/Dopamine.tipa Dopamine_English.ipa
-          mv Dopamine/Dopamine.tipa Dopamine_English_${{ env.shorthash }}_${{ env.ctime }}.ipa
+          mv Dopamine/Dopamine.tipa Dopamine_en_${{ env.shorthash }}_${{ env.ctime }}.ipa
+          git stash
+
+          git checkout dopamine-cn
+          git rebase origin/dopamine
+          git stash pop
+
+          make
+          cp Dopamine/Dopamine.tipa Dopamine_cn.ipa
+          mv Dopamine/Dopamine.tipa Dopamine_cn_${{ env.shorthash }}_${{ env.ctime }}.ipa
+          git stash
 
       - name: Upload
         run: |
@@ -71,13 +81,13 @@ jobs:
           chmod +x ./transfer
           echo "## Mirrors" >> ./release.md
           echo "" >> ./release.md
-          DOWNLINK=$(./transfer trs ./Dopamine_English.ipa | grep Download | cut -f3 -d' ')
+          DOWNLINK=$(./transfer trs ./Dopamine_cn_${{ env.shorthash }}_${{ env.ctime }}.ipa | grep Download | cut -f3 -d' ')
           echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer null ./Dopamine_English.ipa | grep Download | cut -f3 -d' ')
+          DOWNLINK=$(./transfer null ./Dopamine_cn_${{ env.shorthash }}_${{ env.ctime }}.ipa | grep Download | cut -f3 -d' ')
           echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer cat ./Dopamine_English.ipa | grep Download | cut -f3 -d' ')
+          DOWNLINK=$(./transfer cat ./Dopamine_cn_${{ env.shorthash }}_${{ env.ctime }}.ipa | grep Download | cut -f3 -d' ')
           echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer lit ./Dopamine_English.ipa | grep Download | cut -f3 -d' ')
+          DOWNLINK=$(./transfer lit ./Dopamine_cn_${{ env.shorthash }}_${{ env.ctime }}.ipa | grep Download | cut -f3 -d' ')
           echo "* <${DOWNLINK}>" >> ./release.md
 
           echo "" >> ./release.md
