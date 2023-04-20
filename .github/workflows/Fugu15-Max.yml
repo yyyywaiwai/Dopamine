@@ -1,4 +1,4 @@
-name: build, upload, and release
+name: "Fugu15-Max: build, upload, release"
 
 on:
   push:
@@ -96,7 +96,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: auto_${{ env.ctimestamp }}
-          name: "AutoRelease: ${{ env.shorthash }}_${{ env.ctime }}"
+          name: "Fugu15-Max: ${{ env.shorthash }}_${{ env.ctime }}"
           body_path: ./release.md
           draft: false
           prerelease: false
