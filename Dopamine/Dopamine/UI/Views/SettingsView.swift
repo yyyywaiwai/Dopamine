@@ -17,6 +17,7 @@ struct SettingsView: View {
     @AppStorage("tweakInjectionEnabled", store: dopamineDefaults()) var tweakInjection: Bool = true
     @AppStorage("iDownloadEnabled", store: dopamineDefaults()) var enableiDownload: Bool = false
     @AppStorage("enableMount", store: dopamineDefaults()) var enableMount: Bool = true
+    @AppStorage("rebuildEnvironment", store: dopamineDefaults()) var rebuildEnvironment: Bool = false
 
     @State var mobilePasswordChangeAlertShown = false
     @State var mobilePasswordInput = "alpine"
@@ -40,6 +41,10 @@ struct SettingsView: View {
 
             VStack(spacing: 20) {
                 VStack(spacing: 10) {
+                    if !isJailbroken() {
+                        Toggle("Rebuild Environment", isOn: $rebuildEnvironment)
+                        Toggle("Enable Path Mapping", isOn: $enableMount)
+                    }
                     Toggle("Settings_Tweak_Injection", isOn: $tweakInjection)
                         .onChange(of: tweakInjection) { newValue in
                             if isJailbroken() {
@@ -50,7 +55,6 @@ struct SettingsView: View {
                     if !isJailbroken() {
                         Toggle("Settings_iDownload", isOn: $enableiDownload)
                         Toggle("Settings_Verbose_Logs", isOn: $verboseLogs)
-                        Toggle("Enable Path Mapping", isOn: $enableMount)
                     }
                 }
                 if isBootstrapped() {
