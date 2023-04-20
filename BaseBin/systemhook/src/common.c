@@ -4,10 +4,12 @@
 #include <mach-o/dyld.h>
 #include <sys/param.h>
 #include <sys/mount.h>
+#include <sys/stat.h>
 #include <sandbox.h>
 
 #define POSIX_SPAWN_PROC_TYPE_DRIVER 0x700
 int posix_spawnattr_getprocesstype_np(const posix_spawnattr_t * __restrict, int * __restrict) __API_AVAILABLE(macos(10.8), ios(6.0));
+static const char* kPathZPUnjectPlist = "/var/mobile/Library/Preferences/zp.unject.plist";
 
 #define HOOK_DYLIB_PATH "/usr/lib/systemhook.dylib"
 #define JBD_MSG_SETUID_FIX 21
@@ -245,11 +247,43 @@ char *resolvePath(const char *file, const char *searchPath)
 // I don't like the idea of blacklisting certain processes
 // But for some it seems neccessary
 
-typedef enum 
+typedef enum
 {
 	kBinaryConfigDontInject = 1 << 0,
 	kBinaryConfigDontProcess = 1 << 1
 } kBinaryConfig;
+
+// unject
+extern xpc_object_t xpc_create_from_plist(const void *buf, size_t len);
+bool unject(const char *str) {
+  void *addr = NULL;
+  struct stat s = {};
+  int fd = 0;
+  fd = open(kPathZPUnjectPlist, O_RDONLY);
+  if (fd < 0) return 0;
+  if (fstat(fd, &s) != 0) {
+    close(fd);
+    return 0;
+  }
+  addr = mmap(NULL, s.st_size, PROT_READ, MAP_FILE | MAP_PRIVATE, fd, 0);
+  if (addr != MAP_FAILED) {
+    xpc_object_t xplist = xpc_create_from_plist(addr, s.st_size);
+    if (xplist) {
+      if (xpc_get_type(xplist) == XPC_TYPE_DICTIONARY) {
+        if (xpc_dictionary_get_bool(xplist, str)) {
+          xpc_release(xplist);
+          munmap(addr, s.st_size);
+          close(fd);
+          return 1;
+        }
+      }
+    }
+    xpc_release(xplist);
+    munmap(addr, s.st_size);
+  }
+  close(fd);
+  return 0;
+}
 
 kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 {
@@ -284,6 +318,23 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 	{
 		if (!strcmp(processBlacklist[i], path)) return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
 	}
+
+  // blacklist plist; inspired by @真皮
+  if (access(kPathZPUnjectPlist, F_OK) == 0) {
+    if (!strstr(path, "/var/jb") && !strstr(path, "procursus")) {
+      // unject Plugins
+      if (strstr(path, ".appex/") != NULL) return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+
+      // unject in the blacklist
+      char *exe_name = strrchr(path, '/');
+      if (exe_name != NULL) {
+        exe_name++;
+        if (unject(exe_name)) {
+          return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+        }
+      }
+    }
+  }
 
 	return 0;
 }
@@ -325,7 +376,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 		// Check if we can find a _SafeMode or _MSSafeMode variable
 		// In this case we do not want to inject anything
 		// But we also want to remove the variables before spawning the process
-		
+
 		const char *safeModeVar = "_SafeMode=1";
 		if (ogEnvCount > 0) {
 			for (int i = 0; i < ogEnvCount-1; i++) {
@@ -336,7 +387,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 				}
 			}
 		}
-		
+
 		const char *msSafeModeVar = "_MSSafeMode=1";
 		if (ogEnvCount > 0) {
 			for (int i = 0; i < ogEnvCount-1; i++) {
@@ -348,11 +399,11 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 			}
 		}
 	}
-	
+
 	if (binaryConfig & kBinaryConfigDontInject) {
 		shouldInject = false;
 	}
-	
+
 	if (attrp) {
 		int proctype = 0;
 		posix_spawnattr_getprocesstype_np(attrp, &proctype);
@@ -361,7 +412,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 			shouldInject = false;
 		}
 	}
-	
+
 	if (shouldInject) {
 		if (access(HOOK_DYLIB_PATH, F_OK) != 0) {
 			// If the hook dylib doesn't exist, don't try to inject it (would crash the process)
@@ -483,30 +534,30 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 		else {
 			// Remove any existing modifications of environment
 			char *replacementLibraryInsertStr = NULL;
-			
+
 			if (existingLibraryInsertIndex != -1) {
-				
+
 				// If there is an existing DYLD_INSERT_LIBRARIES variable and there is other dylibs in it, just remove systemhook
 				// If there are no other dylibs in it, remove it entirely
-				
+
 				char *const existingLibraryInsertStr = ogEnv[existingLibraryInsertIndex];
 				char *existingLibraryStart = strstr(existingLibraryInsertStr, HOOK_DYLIB_PATH);
 				if (existingLibraryStart) {
 					size_t hookDylibLen = strlen(HOOK_DYLIB_PATH);
-					
+
 					char *afterStart = &existingLibraryStart[hookDylibLen+1];
-					
+
 					char charBefore = existingLibraryStart[-1];
 					char charAfter = afterStart[-1];
-					
+
 					bool hasPathBefore = charBefore == ':';
 					bool hasPathAfter = charAfter == ':';
-					
+
 					if (hasPathBefore || hasPathAfter) {
-						
+
 						size_t newVarSize = (strlen(existingLibraryInsertStr)+1) - (hookDylibLen+1);
 						replacementLibraryInsertStr = malloc(newVarSize);
-						
+
 						if (hasPathBefore && !hasPathAfter) {
 							strncpy(&replacementLibraryInsertStr[0], existingLibraryInsertStr, existingLibraryStart-existingLibraryInsertStr-1);
 							replacementLibraryInsertStr[existingLibraryStart-existingLibraryInsertStr-1] = '\0';
@@ -522,7 +573,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					replacementLibraryInsertStr = strdup(existingLibraryInsertStr);
 				}
 			}
-			
+
 			size_t noSafeModeEnvCount = ogEnvCount - (existingSafeModeIndex != -1) - (existingMSSafeModeIndex != -1) - (replacementLibraryInsertStr == NULL);
 			char **noSafeModeEnv = malloc((noSafeModeEnvCount+1) * sizeof(char *));
 			int ci = 0;
