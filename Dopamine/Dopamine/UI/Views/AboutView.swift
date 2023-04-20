@@ -10,11 +10,11 @@ import SwiftUI
 struct AboutView: View {
     @Environment(\.openURL) var openURL
     @State var easterEgg = false
-    
+
     let columns = [
         GridItem(.adaptive(minimum: 100))
     ]
-    
+
     let contributors = [
         ("opa334", "http://github.com/opa334"),
         ("Évelyne", "http://github.com/evelyneee"),
@@ -28,8 +28,10 @@ struct AboutView: View {
         ("ProcursusTeam", "http://github.com/ProcursusTeam"),
         ("kirb", "http://github.com/kirb"),
         ("Amy While", "http://github.com/elihwyma"),
+        ("Liam0205", "http://github.com/Liam0205"),
+        ("again_opa334", "http://github.com/opa334"),
     ]
-    
+
     var body: some View {
         VStack {
             VStack(spacing: 4) {
@@ -37,12 +39,15 @@ struct AboutView: View {
                 Text("Credits_Made_By_Subheadline")
                     .font(.footnote)
                     .opacity(0.6)
+                Text("Translation and icon by Liam0205")
+                    .font(.footnote)
+                    .opacity(0.4)
             }
             Divider()
                 .background(.white)
                 .padding(.horizontal, 32)
                 .opacity(0.25)
-            
+
             VStack {
                 Button(action: {
                     openURL(URL(string: "https://github.com/opa334/Dopamine")!)
@@ -78,7 +83,7 @@ struct AboutView: View {
                 }
             }
             .padding(.vertical)
-            
+
             LazyVGrid(columns: columns) {
                 ForEach(contributors, id: \.0) { contributor in
                     Link(destination: URL(string: contributor.1)!) {
@@ -94,13 +99,13 @@ struct AboutView: View {
             .opacity(0.6)
             .padding(.bottom)
             .padding(.horizontal, 16)
-            
-            
+
+
             Text("Credits_Header_Special_Thanks")
                 .fixedSize()
                 .font(.footnote)
                 .opacity(0.6)
-            
+
             HStack(spacing: 12) {
                 Button {
                     openURL(URL(string: "https://github.com/pinauten/Fugu15")!)
@@ -111,7 +116,7 @@ struct AboutView: View {
                         .frame(height: 24)
                         .opacity(0.5)
                 }
-                
+
                 Button {
                     openURL(URL(string: "https://pinauten.de/")!)
                 } label: {
@@ -126,6 +131,10 @@ struct AboutView: View {
             Group {
                 if !easterEgg {
                     Text("Credits_Footer_Dopamine_Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")\nOS:\(ProcessInfo.processInfo.operatingSystemVersionString)")
+                    Text("Compile Version: " + Constants.commitShortHash() + "\nCompile Time (UTC-8): " + Constants.compileTime())
+                        .fixedSize()
+                        .font(.footnote)
+                        .opacity(0.6)
                 } else {
                     Text(verbatim: "Wait, it's all Evyrest?\nAlways has been.")
                 }
