@@ -13,3 +13,4 @@ Fugu15/Fugu15/bootstrap/tmp/
 .idea
 Tools/fastPathSign/.build_*
 *.log
+.vscode
