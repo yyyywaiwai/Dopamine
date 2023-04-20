@@ -16,9 +16,9 @@ func respring() {
 
 func userspaceReboot() {
     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-    
+
     // MARK: Fade out Animation
-    
+
     let view = UIView(frame: UIScreen.main.bounds)
     view.backgroundColor = .black
     view.alpha = 0
@@ -29,7 +29,7 @@ func userspaceReboot() {
             view.alpha = 1
         })
     }
-    
+
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
         _ = execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
     })
@@ -37,6 +37,27 @@ func userspaceReboot() {
 
 func reboot() {
     _ = execCmd(args: [CommandLine.arguments[0], "reboot"])
+}
+
+func doReboot() {
+    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+
+    // MARK: Fade out Animation
+
+    let view = UIView(frame: UIScreen.main.bounds)
+    view.backgroundColor = .black
+    view.alpha = 0
+
+    for window in UIApplication.shared.connectedScenes.map({ $0 as? UIWindowScene }).compactMap({ $0 }).flatMap({ $0.windows.map { $0 } }) {
+        window.addSubview(view)
+        UIView.animate(withDuration: 0.2, delay: 0, animations: {
+            view.alpha = 1
+        })
+    }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+        execCmd(args: ["/var/jb/usr/sbin/reboot"])
+    })
 }
 
 func isJailbroken() -> Bool {
@@ -90,9 +111,9 @@ func jailbreak(completion: @escaping (Error?) -> ()) {
             setWifiEnabled(true)
             Logger.log("Enabling Wi-Fi", isStatus: true)
         }
-        
+
         try Fugu15.startEnvironment()
-        
+
         DispatchQueue.main.async {
             Logger.log(NSLocalizedString("Jailbreak_Done", comment: ""), type: .success, isStatus: true)
             completion(nil)
@@ -119,7 +140,7 @@ func jailbrokenUpdateTweakInjectionPreference() {
 }
 
 func changeRootPassword(newPassword: String) {
-    
+
 }
 
 
