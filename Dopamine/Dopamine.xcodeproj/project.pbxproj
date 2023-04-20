@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CA22AFC29F134440088CB7B /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA22AFB29F134440088CB7B /* constants.m */; };
 		1502A40C2891B03F0011CB6E /* DopamineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502A40B2891B03F0011CB6E /* DopamineApp.swift */; };
 		1502A4102891B0410011CB6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1502A40F2891B0410011CB6E /* Assets.xcassets */; };
 		1502A4132891B0410011CB6E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1502A4122891B0410011CB6E /* Preview Assets.xcassets */; };
@@ -125,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				938DADDD29F20ACA00C37952 /* Localizable.strings */,
+				0CA22AFB29F134440088CB7B /* constants.m */,
 				9380BFFF29E8601600C0121A /* Fugu15KernelExploit */,
 				1502A42A2891BF130011CB6E /* Makefile */,
 				1502A40A2891B03F0011CB6E /* Dopamine */,
@@ -354,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CA22AFC29F134440088CB7B /* constants.m in Sources */,
 				9380C00129EAE9C600C0121A /* PackageManagerSelectionView.swift in Sources */,
 				CEC4159C29D30D3100D79EE9 /* JailbreakView.swift in Sources */,
 				CEBBF6DD29DB04FA00AD7299 /* Jailbreak.swift in Sources */,
