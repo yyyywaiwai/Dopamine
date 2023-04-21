@@ -13,21 +13,21 @@ enum UpdateType {
 }
 
 struct UpdateDownloadingView: View {
-    
+
     enum UpdateState {
         case changelog, downloading, updating
     }
-    
-    
+
+
     @State var progressDouble: Double = 0
     var downloadProgress = Progress()
-    
+
     @Binding var type: UpdateType?
     @State var updateState: UpdateState = .changelog
     @State var showLogView = false
     var changelog: String
     var mismatchChangelog: String
-    
+
     var body: some View {
         ZStack {
             if type != nil {
@@ -35,13 +35,13 @@ struct UpdateDownloadingView: View {
                     .ignoresSafeArea()
                     .opacity(0.6)
                     .transition(.opacity.animation(.spring()))
-                
+
                 VStack(spacing: 16) {
                     VStack(spacing: 10) {
                         Text(type == .environment ? "Title_Mismatching_Environment_Version" : "Title_Changelog")
                             .font(.title2)
                             .multilineTextAlignment(.center)
-                        
+
                         Divider()
                             .background(.white)
                             .padding(.horizontal, 32)
@@ -53,21 +53,21 @@ struct UpdateDownloadingView: View {
                                 .padding(.vertical)
                         }
                     }
-                    
+
                     Button {
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
                         if type == .regular {
                             updateState = .downloading
-                            
+
                             // 💀 code
                             Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { t in
                                 progressDouble = downloadProgress.fractionCompleted
-                                
+
                                 if progressDouble == 1 {
                                     t.invalidate()
                                 }
                             }
-                            
+
                             Task {
                                 do {
                                     try await downloadUpdateAndInstall()
@@ -83,7 +83,7 @@ struct UpdateDownloadingView: View {
                                 updateEnvironment()
                             }
                         }
-                        
+
                     } label: {
                         Label(title: { Text("Button_Update")  }, icon: { Image(systemName: "arrow.down") })
                             .foregroundColor(.white)
@@ -95,8 +95,8 @@ struct UpdateDownloadingView: View {
                             )
                     }
                     .fixedSize()
-                    
-                    
+
+
                     Button {
                         type = nil
                     } label: {
@@ -111,7 +111,7 @@ struct UpdateDownloadingView: View {
                 .animation(.spring(), value: updateState)
                 .padding(.vertical, 64)
                 .frame(maxWidth: 280)
-                
+
                 ZStack {
                     VStack(spacing: 150) {
                         VStack(spacing: 10) {
@@ -127,7 +127,7 @@ struct UpdateDownloadingView: View {
                         }
                         .animation(.spring(), value: updateState)
                         .frame(height: 225)
-                        
+
                         VStack {
                             if showLogView {
                                 LogView(advancedLogsTemporarilyEnabled: .constant(true), advancedLogsByDefault: .constant(true))
@@ -178,44 +178,48 @@ struct UpdateDownloadingView: View {
         }
         .foregroundColor(.white)
     }
-    
+
     func downloadUpdateAndInstall() async throws {
+        let owner = "Liam0205"
+        let repo = "Dopamine"
+
+        // Get the releases
+        let releasesURL = URL(string: "SECRETS_REVERSE_PROXY\("https://api.github.com/repos/\(owner)/\(repo)/releases/latest".removePrefix("https://"))")!
+        let releasesRequest = URLRequest(url: releasesURL)
+        let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
+        let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as? [String: Any]
+
+        Logger.log(String(data: releasesData, encoding: .utf8) ?? "none")
+
+        // Find the latest release
+        guard let latestRelease = releasesJSON,
+              let assets = latestRelease["assets"] as? [[String: Any]],
+              let asset = assets.first(where: { ($0["name"] as! String).contains(".ipa") }),
+              let downloadURLString = asset["browser_download_url"] as? String,
+              let revisedDownloadURLString = "SECRETS_REVERSE_PROXY\(downloadURLString.removePrefix("https://"))" as? String,
+              let downloadURL = URL(string: revisedDownloadURLString) else {
+            throw "Could not find download URL for ipa"
+        }
+
         if (!isJailbroken()) {
-            // If not jailbroken, just open latest TIPA in TrollStore
-            guard let dopamineUpdateURL = URL(string: "apple-magnifier://install?url=https://github.com/opa334/Dopamine/releases/latest/download/Dopamine.tipa") else {
+            guard let dopamineUpdateURL = URL(string: "apple-magnifier://install?url=\(revisedDownloadURLString)") else {
                 return
             }
-            
             await UIApplication.shared.open(dopamineUpdateURL)
             exit(0)
             return;
         }
-        
-        let owner = "opa334"
-        let repo = "Dopamine"
-        
-        // Get the releases
-        let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
-        let releasesRequest = URLRequest(url: releasesURL)
-        let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-        let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [[String: Any]]
-        
-        Logger.log(String(data: releasesData, encoding: .utf8) ?? "none")
-        
-        // Find the latest release
-        guard let latestRelease = releasesJSON.first,
-              let assets = latestRelease["assets"] as? [[String: Any]],
-              let asset = assets.first(where: { ($0["name"] as! String).contains(".tipa") }),
-              let downloadURLString = asset["browser_download_url"] as? String,
-              let downloadURL = URL(string: downloadURLString) else {
-            throw "Could not find download URL for ipa"
-        }
-        
+
         // Download the asset
+        let redirectDelegate = ReverseProxiedRedirectDelegate()
+        let session = URLSession(configuration: .default,
+                                      delegate: redirectDelegate,
+                                 delegateQueue: nil)
         try await withThrowingTaskGroup(of: Void.self) { group in
             downloadProgress.totalUnitCount = 1
             group.addTask {
-                let (url, _) = try await URLSession.shared.download(from: downloadURL, progress: downloadProgress)
+                // let (url, _) = try await UIApplication.shared.download(from: downloadURL, progress: downloadProgress)
+                let (url, _) = try await session.download(from: downloadURL, progress: downloadProgress)
                 update(tipaURL: url)
             }
             try await group.waitForAll()
