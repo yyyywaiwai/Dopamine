@@ -31,7 +31,7 @@ struct AboutView: View {
                 Text("Credits_Made_By_Subheadline")
                     .font(.footnote)
                     .opacity(0.6)
-                Text("New icon by Liam0205")
+                Text("Credits_New_Icon_Subhedline")
                     .font(.footnote)
                     .opacity(0.4)
             }
@@ -123,7 +123,7 @@ struct AboutView: View {
             Group {
                 if !easterEgg {
                     Text("Credits_Footer_Dopamine_Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")\nOS:\(ProcessInfo.processInfo.operatingSystemVersionString)")
-                    Text("Compile Version: " + Constants.commitShortHash() + "\nCompile Time (UTC-8): " + Constants.compileTime())
+                    Text("Credits_Footer_Dopamine_Hash \(Constants.commitShortHash())\n\(Constants.bundleID())")
                         .fixedSize()
                         .font(.footnote)
                         .opacity(0.6)
