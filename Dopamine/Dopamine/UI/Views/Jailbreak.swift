@@ -243,7 +243,6 @@ func updateEnvironment() {
     jbdUpdateFromBasebinTar(Bundle.main.bundlePath + "/basebin.tar", true)
 }
 
-
 // debugging
 func isSandboxed() -> Bool {
     !FileManager.default.isWritableFile(atPath: "/var/mobile/")

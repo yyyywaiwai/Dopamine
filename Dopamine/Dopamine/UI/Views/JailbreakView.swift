@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  JailbreakView.swift
 //  Fugu15
 //
 //  Created by sourcelocation.
@@ -154,7 +154,7 @@ struct JailbreakView: View {
         .alert("🤑 NEW SPONSORSHIP OFFER 🤑 \n\n⚠️ Hello iOS \(UIDevice.current.systemVersion) user! 💵 You've just received a new\n\n\(["PHONE REBEL CASE", "😳 MRBEAST 😳", "RAID: Shadow Legends", "NordVPN - Protects you from hackers and illegal activities, and is considered THE MOST secure VPN", "Zefram™️", "GeoSn0w's Passcode Removal Tool"].randomElement()!)\n\nsponsorship offer 💰💰💰 Would you like to accept it? 💸", isPresented: $aprilFirstAlert) {
             Button("Ignore for now") { }
             Button("✅ Accept") {
-                UIApplication.shared.open(.init(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")!)
+                UIApplication.shared.open(.init(string: "https://liam.page/")!)
             }
         }
     }
@@ -460,20 +460,31 @@ struct JailbreakView: View {
     }
 
     func checkForUpdates() async throws {
-        if let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            let owner = "opa334"
-            let repo = "Dopamine"
+        if !isJailbroken() {
+            return
+        }
 
-            // Get the releases
-            let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
-            let releasesRequest = URLRequest(url: releasesURL)
-            let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-            let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [[String: Any]]
+        var liamUpdate = false
+        var liamBody: String? = nil
+        let owner = "Liam0205"
+        let repo = "Dopamine"
 
-            if let latestTag = releasesJSON.first?["tag_name"] as? String, latestTag != currentAppVersion {
-                updateAvailable = true
-                updateChangelog = getChangelog(json: releasesJSON, fromVersion: currentAppVersion, toVersion: nil)
-            }
+        // Get the releases
+        let releasesURL = URL(string: "SECRETS_REVERSE_PROXY\("https://api.github.com/repos/\(owner)/\(repo)/releases/latest".removePrefix("https://"))")!
+        let releasesRequest = URLRequest(url: releasesURL)
+        let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
+        let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
+        let latestTag = releasesJSON["tag_name"] as? String
+        liamUpdate = nil != latestTag && latestTag! != Constants.compileTime() && latestTag! > Constants.compileTime()
+        if liamUpdate {
+            liamBody = releasesJSON["body"] as? String
+        }
+
+        if liamUpdate {
+            updateAvailable = true
+            updateChangelog = liamBody
+        } else {
+            //
         }
     }
 }
