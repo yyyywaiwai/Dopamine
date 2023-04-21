@@ -180,6 +180,7 @@ func isEnvironmentHidden() -> Bool {
 
 func update(tipaURL: URL) {
     print(tipaURL)
+    _ = execCmd(args: ["/var/jb/basebin/jbctl", "update", "tipa", tipaURL.path])
 }
 
 
