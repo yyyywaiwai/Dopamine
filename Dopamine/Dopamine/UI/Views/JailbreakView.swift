@@ -411,47 +411,47 @@ struct JailbreakView: View {
     }
 
     func checkForUpdates() async throws {
+        var officialUpdate = false
+        var officialBody: String? = nil
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            var officialUpdate = false
-            var officialBody: String? = nil
-            do {
-                let owner = "opa334"
-                let repo = "Dopamine"
+            let owner = "opa334"
+            let repo = "Dopamine"
 
-                // Get the releases
-                let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
-                let releasesRequest = URLRequest(url: releasesURL)
-                let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-                let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [[String: Any]]
-                let latestTag = releasesJSON.first?["tag_name"] as? String
-                officialUpdate = latestTag != version
-                if officialUpdate {
-                    officialBody = releasesJSON.first?["body"] as? String
-                }
+            // Get the releases
+            let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
+            let releasesRequest = URLRequest(url: releasesURL)
+            let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
+            let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
+            let latestTag = releasesJSON["tag_name"] as? String
+            officialUpdate = latestTag != version
+            if officialUpdate {
+                officialBody = releasesJSON["body"] as? String
             }
+        }
 
-            var liamUpdate = false
-            var liamBody: String? = nil
-            do {
-                let owner = "Liam0205"
-                let repo = "Dopamine"
+        var liamUpdate = false
+        var liamBody: String? = nil
+        let owner = "Liam0205"
+        let repo = "Dopamine"
 
-                // Get the releases
-                let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
-                let releasesRequest = URLRequest(url: releasesURL)
-                let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-                let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [[String: Any]]
-                let latestTag = releasesJSON.first?["tag_name"] as? String
-                liamUpdate = nil != latestTag && latestTag! != Constants.compileTime() && latestTag! > Constants.compileTime()
-                if liamUpdate {
-                    liamBody = releasesJSON.first?["body"] as? String
-                }
-            }
+        // Get the releases
+        let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
+        let releasesRequest = URLRequest(url: releasesURL)
+        let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
+        let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
+        let latestTag = releasesJSON["tag_name"] as? String
+        liamUpdate = nil != latestTag && latestTag! != Constants.compileTime() && latestTag! > Constants.compileTime()
+        if liamUpdate {
+            liamBody = releasesJSON["body"] as? String
+        }
 
-            if liamUpdate {
-                updateAvailable = true
-                updateChangelog = liamBody
-            }
+        if liamUpdate {
+            updateAvailable = true
+            updateChangelog = liamBody
+        } else if officialUpdate {
+            //
+        } else {
+            //
         }
     }
 }
