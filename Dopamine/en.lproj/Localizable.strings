@@ -24,6 +24,12 @@
 
 "Button_Update_Available" = "Update available";
 
+"Button_Reboot_Userspace_Finish" = "Reboot Userspace (Finish)";
+
+"Button_Respring_Finish" = "Restart SpringBoard (Finish)";
+
+"Button_Add_Path_Mapping_Source" = "Add Path-mapping Source";
+
 "Bypassing PAC" = "Bypassing PAC";
 
 "Bypassing PPL" = "Bypassing PPL";
@@ -38,11 +44,15 @@
 
 "Credits_Footer_Dopamine_Version %@\nOS:%@" = "Dopamine version %@\n%@";
 
+"Credits_Footer_Dopamine_Hash %@\n%@" = "Compile Version: %@\n%@";
+
 "Credits_Header_Special_Thanks" = "Special thanks:";
 
 "Credits_Made_By" = "Made by by opa334, évelyne";
 
 "Credits_Made_By_Subheadline" = "UI by sourcelocation\nLogo and icon by xerus";
+
+"Credits_New_Icon_Subhedline" = "New icon by Liam0205";
 
 "Finalizing Bootstrap" = "Finalizing Bootstrap";
 
@@ -70,15 +80,25 @@
 
 "Menu_Restart_SpringBoard_Title" = "Restart SpringBoard";
 
+"Menu_ldrestart_Title" = "ldrestart";
+
+"Menu_Reboot_Title" = "Reboot";
+
 "Options_iDownload" = "iDownload";
 
 "Options_Tweak_Injection" = "Tweak Injection";
 
 "Options_Verbose_Logs" = "Verbose Logs";
 
+"Options_Rebuild_Environment" = "Rebuild Environment";
+
+"Options_Enable_Path_Mapping" = "Enable Path Mapping";
+
 "Patchfinding" = "Patchfinding";
 
 "Popup_Change_Root_Password_Title" = "Change Root Password";
+
+"Popup_Path_Mapping_Source_Title" = "Add Path-mapping Source";
 
 "Rebuilding TrustCache" = "Rebuilding TrustCache";
 
@@ -116,6 +136,8 @@
 
 "Title_Supported_iOS_Versions" = "iOS 15.0 - 15.4.1, A12 - A15";
 
+"Title_Compile_Time %@" = "Compile Time (UTC-8): %@";
+
 "Update_Log_Hint_Scrollable" = "Log view can be scrolled";
 
 "Update_Status_Downloading" = "Downloading update...";
@@ -125,4 +147,3 @@
 "Update_Status_Subtitle_Please_Wait" = "Please wait while files finish downloading";
 
 "Update_Status_Subtitle_Restart_Soon" = "The device will restart soon";
-
