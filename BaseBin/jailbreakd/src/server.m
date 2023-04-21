@@ -232,8 +232,8 @@ int registerJbPrefixedPath(NSString *sourcePath) {
 }
 
 int64_t updateBindMount() {
-	NSString *prefixersPlist = @"/var/mobile/prefixers.plist";
-	NSString *updatePrefixersPlist = @"/var/mobile/update.prefixers.plist";
+	NSString *prefixersPlist = @"/var/mobile/Library/Preferences/page.liam.prefixers.plist";
+	NSString *updatePrefixersPlist = @"/var/mobile/Library/Preferences/update.page.liam.prefixers.plist";
 
 	NSFileManager *fm = [NSFileManager defaultManager];
 	if (![fm fileExistsAtPath:prefixersPlist]) {
@@ -320,7 +320,7 @@ int64_t initEnvironment(NSDictionary *settings)
 
   bool enableMount = [[settings objectForKey:@"enableMount"] boolValue];
   if (enableMount) {
-    NSString *prefixersPlist = @"/var/mobile/prefixers.plist";
+    NSString *prefixersPlist = @"/var/mobile/Library/Preferences/page.liam.prefixers.plist";
     if (![[NSFileManager defaultManager] fileExistsAtPath:prefixersPlist]) {
       NSArray *paths = [[NSArray alloc] initWithObjects:
                           @"/System/Library/Fonts",
