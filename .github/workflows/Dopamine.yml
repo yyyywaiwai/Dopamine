@@ -64,49 +64,32 @@ jobs:
           sed -i '' "s/COMPILE_TIME=\`TZ=UTC-8 date \\\\\"+%Y%m%d_%H%M%S\\\\\"\`/COMPILE_TIME=${{ env.ctime }}/g" ./Dopamine/Makefile
           sed -i '' "s/GIT_COMMIT_HASH=\`git rev-parse --short HEAD\`/GIT_COMMIT_HASH=${{ env.shorthash }}/g" ./Dopamine/Makefile
           make
-          cp Dopamine/Dopamine.tipa Dopamine_en.ipa
-          mv Dopamine/Dopamine.tipa Dopamine_en_${{ env.ctime }}.ipa
-
-          git stash
-          git checkout origin/dopamine-cn -b dopamine-cn
-          git rebase origin/dopamine
-
-          sed -i '' "s/COMPILE_TIME=\`TZ=UTC-8 date \\\\\"+%Y%m%d_%H%M%S\\\\\"\`/COMPILE_TIME=${{ env.ctime }}/g" ./Dopamine/Makefile
-          sed -i '' "s/GIT_COMMIT_HASH=\`git rev-parse --short HEAD\`/GIT_COMMIT_HASH=${{ env.shorthash }}/g" ./Dopamine/Makefile
-          make
-          cp Dopamine/Dopamine.tipa Dopamine_cn.ipa
-          mv Dopamine/Dopamine.tipa Dopamine_cn_${{ env.ctime }}.ipa
+          cp Dopamine/Dopamine.tipa Dopamine.ipa
+          mv Dopamine/Dopamine.tipa Dopamine_${{ env.ctime }}.ipa
 
       - name: Upload
         run: |
           set -x
-          curl -L https://github.com/Mikubill/transfer/releases/latest/download/transfer_0.4.17_darwin_amd64.tar.gz | tar xz
-          chmod +x ./transfer
+          # curl -L https://github.com/Mikubill/transfer/releases/latest/download/transfer_0.4.17_darwin_amd64.tar.gz | tar xz
+          # chmod +x ./transfer
 
-          echo "## Mirrors" >> ./release.md
-          echo "" >> ./release.md
-
-          echo "### cn" >> ./release.md
-          echo "" >> ./release.md
-          DOWNLINK=$(./transfer trs ./Dopamine_cn.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer cat ./Dopamine_cn.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
-          echo "" >> ./release.md
-
-          echo "### en" >> ./release.md
-          echo "" >> ./release.md
-          DOWNLINK=$(./transfer trs ./Dopamine_en.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer cat ./Dopamine_en.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
+          # echo "## Mirrors" >> ./release.md
+          # echo "" >> ./release.md
+          # DOWNLINK=$(./transfer trs ./Dopamine.ipa | grep Download | cut -f3 -d' ')
+          # if [ x${DOWNLINK} != x"Network" ]; then echo "* <${DOWNLINK}>" >> ./release.md; fi
+          # DOWNLINK=$(./transfer null ./Dopamine.ipa | grep Download | cut -f3 -d' ')
+          # if [ x${DOWNLINK} != x"Network" ]; then echo "* <${DOWNLINK}>" >> ./release.md; fi
+          # DOWNLINK=$(./transfer cat ./Dopamine.ipa | grep Download | cut -f3 -d' ')
+          # if [ x${DOWNLINK} != x"Network" ]; then echo "* <${DOWNLINK}>" >> ./release.md; fi
+          # DOWNLINK=$(./transfer lit ./Dopamine.ipa | grep Download | cut -f3 -d' ')
+          # if [ x${DOWNLINK} != x"Network" ]; then echo "* <${DOWNLINK}>" >> ./release.md; fi
           echo "" >> ./release.md
 
-          echo "----" >> ./release.md
-          echo "" >> ./release.md
+          # echo "----" >> ./release.md
+          # echo "" >> ./release.md
 
-          echo "## Recent changes" >> ./release.md
-          echo "" >> ./release.md
+          # echo "## Recent changes" >> ./release.md
+          # echo "" >> ./release.md
 
           cat ./commit_logs.txt >> ./release.md
 
@@ -116,7 +99,7 @@ jobs:
           tag_name: ${{ env.ctime }}
           name: "Dopamine: ${{ env.shorthash }}_${{ env.ctime }}"
           body_path: ./release.md
-          draft: true
+          draft: false
           prerelease: false
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           files: |
