@@ -31,7 +31,7 @@ struct AboutView: View {
                 Text("Credits_Made_By_Subheadline")
                     .font(.footnote)
                     .opacity(0.6)
-                Text("Translation and icon by Liam0205")
+                Text("New icon by Liam0205")
                     .font(.footnote)
                     .opacity(0.4)
             }
