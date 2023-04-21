@@ -2,6 +2,8 @@
 
 "Button_Cancel" = "Cancel";
 
+"Button_Set" = "Set";
+
 "Button_Hide_Jailbreak" = "Hide Jailbreak";
 
 "Button_Hide_Logs_Title" = "Hide Logs";
@@ -24,6 +26,12 @@
 
 "Button_Update_Available" = "Update available";
 
+"Button_Reboot_Userspace_Finish" = "Reboot Userspace (Finish)";
+
+"Button_Respring_Finish" = "Restart SpringBoard (Finish)";
+
+"Button_Add_Path_Mapping_Source" = "Add Path-mapping Source";
+
 "Bypassing PAC" = "Bypassing PAC";
 
 "Bypassing PPL" = "Bypassing PPL";
@@ -38,11 +46,15 @@
 
 "Credits_Footer_Dopamine_Version %@\nOS:%@" = "Dopamine version %@\n%@";
 
+"Credits_Footer_Dopamine_Hash %@\n%@" = "Compile Version: %@\n%@";
+
 "Credits_Header_Special_Thanks" = "Special thanks:";
 
 "Credits_Made_By" = "Made by by opa334, évelyne";
 
 "Credits_Made_By_Subheadline" = "UI by sourcelocation\nLogo and icon by xerus";
+
+"Credits_New_Icon_Subhedline" = "New icon by Liam0205";
 
 "Finalizing Bootstrap" = "Finalizing Bootstrap";
 
@@ -70,13 +82,23 @@
 
 "Menu_Restart_SpringBoard_Title" = "Restart SpringBoard";
 
+"Menu_ldrestart_Title" = "ldrestart";
+
+"Menu_Reboot_Title" = "Reboot";
+
 "Settings_iDownload" = "iDownload";
 
 "Settings_Tweak_Injection" = "Tweak Injection";
 
 "Settings_Verbose_Logs" = "Verbose Logs";
 
+"Options_Rebuild_Environment" = "Rebuild Environment";
+
+"Options_Enable_Path_Mapping" = "Enable Path Mapping";
+
 "Patchfinding" = "Patchfinding";
+
+"Popup_Path_Mapping_Source_Title" = "Add Path-mapping Source";
 
 "Rebuilding TrustCache" = "Rebuilding TrustCache";
 
@@ -106,6 +128,8 @@
 
 "Title_Supported_iOS_Versions" = "iOS 15.0 - 15.4.1 | A12 - A15, M1";
 
+"Title_Compile_Time %@" = "Compile Time (UTC-8): %@";
+
 "Update_Log_Hint_Scrollable" = "Log view can be scrolled";
 
 "Update_Status_Downloading" = "Downloading update...";
@@ -126,4 +150,6 @@
 
 "Settings_Remove_Jailbreak_Alert_Title" = "Remove Jailbreak";
 
-"Settings_Tweak_Injection_Toggled_Alert_Title" = "Userspace Reboot Required";
+"Settings_Tweak_Injection_Toggled_Alert_Title" = "Userspace reboot required";
+
+"Log_Start_Jailbreaking" = "Start Jailbreaking...";
