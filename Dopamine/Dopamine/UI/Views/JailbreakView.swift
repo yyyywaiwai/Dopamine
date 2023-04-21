@@ -63,9 +63,9 @@ struct JailbreakView: View {
         menuOptions = [
             .init(imageName: "gearshape", title: NSLocalizedString("Menu_Options_Title", comment: ""), view: AnyView(SettingsView())),
             .init(imageName: "arrow.clockwise", title: NSLocalizedString("Menu_Restart_SpringBoard_Title", comment: ""), showUnjailbroken: false, action: respring),
-            .init(imageName: "arrow.counterclockwise.circle", title: "ldrestart", showUnjailbroken: false, action: doLdrestart),
+            .init(imageName: "arrow.counterclockwise.circle", title: NSLocalizedString("Menu_ldrestart_Title", comment: ""), showUnjailbroken: false, action: doLdrestart),
             .init(imageName: "arrow.clockwise.circle", title: NSLocalizedString("Menu_Reboot_Userspace_Title", comment: ""), showUnjailbroken: false, action: userspaceReboot),
-            .init(imageName: "arrow.clockwise.circle.fill", title: "Reboot", showUnjailbroken: false, action: doReboot),
+            .init(imageName: "arrow.clockwise.circle.fill", title: NSLocalizedString("Menu_Reboot_Title", comment: ""), showUnjailbroken: false, action: doReboot),
             .init(imageName: "info.circle", title: NSLocalizedString("Menu_Credits_Title", comment: ""), view: AnyView(AboutView())),
         ]
     }
@@ -172,7 +172,7 @@ struct JailbreakView: View {
                 Text("Title_Made_By")
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.5))
-                Text("Compile Time (UTC-8): \(Constants.compileTime())")
+                Text("Title_Compile_Time \(Constants.compileTime())")
                     .font(.footnote)
                     .foregroundColor(.white.opacity(0.5))
             }

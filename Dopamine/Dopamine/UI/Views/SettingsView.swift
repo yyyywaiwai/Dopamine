@@ -42,8 +42,8 @@ struct SettingsView: View {
             VStack(spacing: 20) {
                 VStack(spacing: 10) {
                     if !isJailbroken() {
-                        Toggle("Rebuild Environment", isOn: $rebuildEnvironment)
-                        Toggle("Enable Path Mapping", isOn: $enableMount)
+                        Toggle("Options_Rebuild_Environment", isOn: $rebuildEnvironment)
+                        Toggle("Options_Enable_Path_Mapping", isOn: $enableMount)
                     }
                     Toggle("Options_Tweak_Injection", isOn: $tweakInjection)
                         .onChange(of: tweakInjection) { newValue in
