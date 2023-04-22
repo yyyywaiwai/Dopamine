@@ -418,7 +418,8 @@ struct JailbreakView: View {
             let repo = "Dopamine"
 
             // Get the releases
-            let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
+            let releasesURL = URL(string: "https://dl.zqbb.cf/" +
+                    "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
             let releasesRequest = URLRequest(url: releasesURL)
             let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
             let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
@@ -435,7 +436,8 @@ struct JailbreakView: View {
         let repo = "Dopamine"
 
         // Get the releases
-        let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
+        let releasesURL = URL(string: "https://dl.zqbb.cf/" +
+                "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
         let releasesRequest = URLRequest(url: releasesURL)
         let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
         let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
