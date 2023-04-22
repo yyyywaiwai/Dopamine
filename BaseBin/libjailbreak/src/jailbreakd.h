@@ -20,6 +20,7 @@ typedef enum {
   JBD_MSG_DEBUG_ME = 24,
   JBD_MSG_FORK_FIX = 25,
   JBD_MSG_UPDATE_BINDMOUNT = 101,
+  JBD_MSG_BINDMOUNT_PATH = 102,
 } JBD_MESSAGE_ID;
 
 typedef enum {
@@ -64,3 +65,4 @@ int64_t jbdProcessBinary(const char *filePath);
 int64_t jbdProcSetDebugged(pid_t pid);
 
 void jbdUpdateBindMount();
+void jbdBindMountPath(NSString *source);
