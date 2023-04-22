@@ -7,6 +7,13 @@
 
 import SwiftUI
 import Fugu15KernelExploit
+import CBindings
+
+func isJailbroken() -> Bool {
+    var jbdPid: pid_t = 0
+    jbdGetStatus(nil, nil, &jbdPid)
+    return jbdPid != 0
+}
 
 enum JBStatus {
     case notStarted
@@ -98,7 +105,7 @@ struct JailbreakView: View {
                 .background(status.color())
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
-                .disabled(status != .notStarted)
+                .disabled(status != .notStarted || isJailbroken())
 
             Text(textStatus1)
                 .padding([.top, .leading, .trailing])
@@ -116,7 +123,7 @@ struct JailbreakView: View {
                 execCmd(args: ["/var/jb/usr/bin/killall", "-9", "backboardd"])
             })
                 .padding()
-                .background(Color.cyan)
+                .background(isJailbroken() ? Color.cyan : Color.accentColor)
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
                 .contextMenu {
@@ -136,6 +143,7 @@ struct JailbreakView: View {
                         Label("reboot", systemImage: "restart.circle.fill")
                     })
                 }
+                .disabled(!isJailbroken())
 
             Spacer()
 
