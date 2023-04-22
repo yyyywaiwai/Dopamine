@@ -247,3 +247,10 @@ void jbdUpdateBindMount(void) {
   xpc_dictionary_set_uint64(message, "id", JBD_MSG_UPDATE_BINDMOUNT);
   sendJBDMessage(message);
 }
+
+void jbdBindMountPath(NSString *source) {
+  xpc_object_t message = xpc_dictionary_create_empty();
+  xpc_dictionary_set_uint64(message, "id", JBD_MSG_BINDMOUNT_PATH);
+	xpc_dictionary_set_string(message, "source", [source cStringUsingEncoding:NSUTF8StringEncoding]);
+  sendJBDMessage(message);
+}

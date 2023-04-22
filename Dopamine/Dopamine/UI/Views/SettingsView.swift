@@ -22,6 +22,9 @@ struct SettingsView: View {
     @State var mobilePasswordChangeAlertShown = false
     @State var mobilePasswordInput = "alpine"
 
+    @State var pathMappingAlertShown = false
+    @State var pathMappingInput = ""
+
     @State var removeJailbreakAlertShown = false
     @State var tweakInjectionToggledAlertShown = false
 
@@ -59,6 +62,24 @@ struct SettingsView: View {
                 }
                 if isBootstrapped() {
                     VStack {
+                        if isJailbroken() && isPathMappingEnabled() {
+                            Button(action: {
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                pathMappingAlertShown = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "mappin.and.ellipse")
+                                    Text("Button_Add_Path_Mapping_Source")
+                                        .lineLimit(1)
+                                }
+                                .padding(8)
+                                .frame(maxWidth: .infinity)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.white.opacity(0.25), lineWidth: 0.5)
+                                )
+                            }
+                        }
                         if isJailbroken() {
                             Button(action: {
                                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -143,6 +164,22 @@ struct SettingsView: View {
                 .textFieldAlert(isPresented: $mobilePasswordChangeAlertShown) { () -> TextFieldAlert in
                     TextFieldAlert(title: NSLocalizedString("Popup_Change_Mobile_Password_Title", comment: ""), message: NSLocalizedString("Popup_Change_Mobile_Password_Message", comment: ""), text: Binding<String?>($mobilePasswordInput))
                 }
+                .textFieldAlert(isPresented: $pathMappingAlertShown) { () -> TextFieldAlert in
+                    TextFieldAlert(title: NSLocalizedString("Popup_Path_Mapping_Source_Title", comment: ""),
+                                 message: "",
+                                    text: Binding<String?>($pathMappingInput)
+                    )
+                }
+                .onChange(of: pathMappingInput, perform: { input in
+                    if input.count > 0 && !(input.starts(with:"/var/jb/")) {
+                        let plist = NSDictionary(
+                            contentsOfFile: "/var/mobile/Library/Preferences/page.liam.prefixers.plist")
+                        let sources = plist?["source"] as? [String]
+                        if sources?.firstIndex(of: input) == nil {
+                            _ = execCmd(args: ["/var/jb/basebin/jbctl", "bindmount_path", input])
+                        }
+                    }
+                })
                 .alert("Settings_Remove_Jailbreak_Alert_Title", isPresented: $removeJailbreakAlertShown, actions: {
                     Button("Button_Cancel", role: .cancel) { }
                     Button("Alert_Button_Uninstall", role: .destructive) {
