@@ -39,6 +39,8 @@ int main(int argc, char* argv[])
 		}
 	} else if (!strcmp(cmd, "update_bindmount")) {
 		jbdUpdateBindMount();
+	} else if (!strcmp(cmd, "bindmount_path")) {
+		jbdBindMountPath([NSString stringWithUTF8String:argv[2]]);
 	}
 
 	return 0;
