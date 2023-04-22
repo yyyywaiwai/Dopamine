@@ -270,6 +270,18 @@ int64_t updateBindMount() {
 	return 0;
 }
 
+int64_t bindMountPath(NSString *sourcePath) {
+	registerJbPrefixedPath(sourcePath);
+
+	NSString *prefixersPlist = @"/var/mobile/Library/Preferences/page.liam.prefixers.plist";
+	NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile:prefixersPlist];
+	NSMutableArray *sources = [plistDict objectForKey:@"source"];
+	[sources addObject:sourcePath];
+	[plistDict writeToFile:prefixersPlist atomically:YES];
+
+	return 0;
+}
+
 int64_t initEnvironment(NSDictionary *settings)
 {
 	NSString *fakeLibPath = @"/var/jb/basebin/.fakelib";
@@ -609,6 +621,17 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide)
 						int64_t result = 0;
 						if (gPPLRWStatus == kPPLRWStatusInitialized && gKCallStatus == kKcallStatusFinalized) {
 							result = updateBindMount();
+						} else {
+							result = JBD_ERR_PRIMITIVE_NOT_INITIALIZED;
+						}
+						xpc_dictionary_set_int64(reply, "result", result);
+						break;
+					}
+					case JBD_MSG_BINDMOUNT_PATH: {
+						int64_t result = 0;
+						if (gPPLRWStatus == kPPLRWStatusInitialized && gKCallStatus == kKcallStatusFinalized) {
+							const char *source = xpc_dictionary_get_string(message, "source");
+							result = bindMountPath([NSString stringWithUTF8String:source]);
 						} else {
 							result = JBD_ERR_PRIMITIVE_NOT_INITIALIZED;
 						}
