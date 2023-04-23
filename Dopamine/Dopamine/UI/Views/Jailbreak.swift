@@ -117,7 +117,7 @@ func jailbreak(completion: @escaping (Error?) -> ()) {
         if wifiFixupNeeded {
             setWifiEnabled(false)
             Logger.log("Disabling Wi-Fi", isStatus: true)
-            sleep(1)
+            sleep(5)
         }
 
         Logger.log("Launching kexploitd", isStatus: true)
