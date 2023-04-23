@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  JailbreakView.swift
 //  Fugu15
 //
 //  Created by sourcelocation.
@@ -411,23 +411,8 @@ struct JailbreakView: View {
     }
 
     func checkForUpdates() async throws {
-        var officialUpdate = false
-        var officialBody: String? = nil
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            let owner = "opa334"
-            let repo = "Dopamine"
-
-            // Get the releases
-            let releasesURL = URL(string: "https://dl.zqbb.cf/" +
-                    "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
-            let releasesRequest = URLRequest(url: releasesURL)
-            let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-            let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
-            let latestTag = releasesJSON["tag_name"] as? String
-            officialUpdate = latestTag != version
-            if officialUpdate {
-                officialBody = releasesJSON["body"] as? String
-            }
+        if !isJailbroken() {
+            return
         }
 
         var liamUpdate = false
@@ -450,8 +435,6 @@ struct JailbreakView: View {
         if liamUpdate {
             updateAvailable = true
             updateChangelog = liamBody
-        } else if officialUpdate {
-            //
         } else {
             //
         }
