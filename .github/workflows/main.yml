@@ -1,4 +1,4 @@
-name: "Dopamine: build and upload"
+name: "master: build, upload, draft release"
 
 on:
   push:
@@ -12,28 +12,28 @@ on:
     paths-ignore:
       - ".gitignore"
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 1 *'
-    - cron: '0 0 1 4 *'
-    - cron: '0 0 30 6 *'
-    - cron: '0 0 28 9 *'
-    - cron: '0 0 27 12 *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-latest
+    environment: Patch AutoBuildRelease
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
         with:
-          packages: ldid findutils sed coreutils trustcache make
+          packages: ldid trustcache findutils coreutils sed make
 
       - name: Install THEOS (without SDKs)
         run: |
@@ -48,13 +48,24 @@ jobs:
 
       - name: Set Environment Variables
         run: |
-          set -x
-          T2=$(TZ=UTC-2 date +'%Y%m%d_%H%M%S')
-          TS=$(date -j -f "%Y%m%d_%H%M%S" "${T2}" +%s)
-          SHASH=$(git rev-parse --short HEAD)
-          echo "ctime=${T2}" >> $GITHUB_ENV
-          echo "ctimestamp=${TS}" >> $GITHUB_ENV
-          echo "shorthash=${SHASH}" >> $GITHUB_ENV
+         T8=$(TZ=UTC-8 date +'%Y%m%d_%H%M%S')
+         TS=$(date -j -f "%Y%m%d_%H%M%S" "${T8}" +%s)
+         SHASH=$(git rev-parse --short HEAD)
+         echo "Git commit log since last tag:" >> ./release.md
+         echo "\`\`\`" >> ./release.md
+         git log --graph --pretty=format:'%h - %s <%an>' --abbrev-commit $(git describe --tags --abbrev=0).. >> ./release.md
+         echo "" >> ./release.md
+         echo "\`\`\`" >> ./release.md
+         echo "ctime=${T8}" >> $GITHUB_ENV
+         echo "ctimestamp=${TS}" >> $GITHUB_ENV
+         echo "shorthash=${SHASH}" >> $GITHUB_ENV
+
+      - name: Print Environment Variables
+        run: |
+         echo ${{ env.ctime }}
+         echo ${{ env.ctimestamp }}
+         echo ${{ env.shorthash }}
+         cat ./release.md
 
       - name: Build
         run: |
@@ -62,21 +73,24 @@ jobs:
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
           export BASEDIR="$(pwd)"
           export THEOS="${BASEDIR}/theos"
-          gmake -j$(sysctl -n hw.physicalcpu)
-          cp -a Dopamine/Dopamine.tipa Dopamine/Dopamine_${{ env.shorthash }}_${{ env.ctime }}.tipa
-          cp -a Dopamine/Dopamine.tipa Dopamine/Dopamine_Latest.tipa
+          gmake
+          mv Dopamine/Dopamine.tipa Dopamine_${{ env.shorthash }}_${{ env.ctime }}.tipa
 
-      - name: Upload Latest Artifact
-        id: dopamine-latest-upload
-        uses: actions/upload-artifact@v3
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2.3.1
         with:
-          name: Dopamine_Latest
+          name: Dopamine tipa
           path: |
-            ${{ github.workspace }}/Dopamine/Dopamine_Latest.tipa
-      - name: Upload Hashed Artifact
-        id: dopamine-hashed-upload
-        uses: actions/upload-artifact@v3
+            ${{ github.workspace }}/Dopamine_${{ env.shorthash }}_${{ env.ctime }}.tipa
+
+      - name: Pre-release
+        uses: softprops/action-gh-release@v1
         with:
-          name: Dopamine_${{ env.shorthash }}_${{ env.ctime }}
-          path: |
-            ${{ github.workspace }}/Dopamine/Dopamine_${{ env.shorthash }}_${{ env.ctime }}.tipa
+          tag_name: "0000_master_${{ env.ctime }}"
+          name: "Dopamine: ${{ env.shorthash }}_${{ env.ctime }}"
+          body_path: ./release.md
+          draft: true
+          prerelease: true
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+           *.tipa
