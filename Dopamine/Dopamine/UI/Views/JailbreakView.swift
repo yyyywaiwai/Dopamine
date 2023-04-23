@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  JailbreakView.swift
 //  Fugu15
 //
 //  Created by sourcelocation.
@@ -419,6 +419,10 @@ struct JailbreakView: View {
     }
 
     func checkForUpdates() async throws {
+        if !isJailbroken() {
+            return
+        }
+
         var liamUpdate = false
         var liamBody: String? = nil
         let owner = "Liam0205"
