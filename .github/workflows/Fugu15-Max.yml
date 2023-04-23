@@ -70,23 +70,23 @@ jobs:
 
       - name: Upload
         run: |
-          curl -L https://github.com/Mikubill/transfer/releases/latest/download/transfer_0.4.17_darwin_amd64.tar.gz | tar xz
-          chmod +x ./transfer
-          echo "## 中文版分流镜像 | Mirror for Chinese version" >> ./release.md
-          echo "" >> ./release.md
-          DOWNLINK=$(./transfer trs ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer null ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer cat ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
-          DOWNLINK=$(./transfer lit ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
-          echo "* <${DOWNLINK}>" >> ./release.md
+          set -x
+          # curl -L https://github.com/Mikubill/transfer/releases/latest/download/transfer_0.4.17_darwin_amd64.tar.gz | tar xz
+          # chmod +x ./transfer
+          # echo "## 中文版分流镜像 | Mirror for Chinese version" >> ./release.md
+          # echo "" >> ./release.md
+          # DOWNLINK=$(./transfer trs ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          # echo "* <${DOWNLINK}>" >> ./release.md
+          # DOWNLINK=$(./transfer null ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          # echo "* <${DOWNLINK}>" >> ./release.md
+          # DOWNLINK=$(./transfer cat ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          # echo "* <${DOWNLINK}>" >> ./release.md
+          # DOWNLINK=$(./transfer lit ./Fugu15-Max_Liam.ipa | grep Download | cut -f3 -d' ')
+          # echo "* <${DOWNLINK}>" >> ./release.md
 
-
-          echo "" >> ./release.md
-          echo "----" >> ./release.md
-          echo "" >> ./release.md
+          # echo "" >> ./release.md
+          # echo "----" >> ./release.md
+          # echo "" >> ./release.md
 
           echo "## Recent changes" >> ./release.md
           echo "" >> ./release.md
