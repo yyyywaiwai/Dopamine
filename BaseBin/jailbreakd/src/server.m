@@ -206,24 +206,26 @@ void generateSystemWideSandboxExtensions(NSString *targetPath)
 	JBLogDebug("rc %d", rc);
 }*/
 
-int registerJbPrefixedPath(NSString *sourcePath) {
+int registerJbPrefixedPath(NSString *sourcePath, int retry) {
   NSString *jbPrefixedPath = [[NSString alloc] initWithFormat:@"%@%@", @"/var/jb", sourcePath];
   JBLogDebug("Start to registerJbPrefixedPath, from [%s] to [%s].", sourcePath.UTF8String,
              jbPrefixedPath.UTF8String);
 
   NSFileManager *fm = [NSFileManager defaultManager];
-  if ([fm contentsOfDirectoryAtPath:jbPrefixedPath error:nil].count == 0) {
+  NSArray* list = [fm contentsOfDirectoryAtPath:jbPrefixedPath error:nil];
+  if (list != nil && list.count == 0) {
     // jbPrefixedPath exists, but directory is empty.
     JBLogDebug("Removing empty jbPrefixedPath[%s].", jbPrefixedPath.UTF8String);
-    [fm removeItemAtPath:jbPrefixedPath error:nil];
+    for (int i = 0; i != retry && ![fm removeItemAtPath:jbPrefixedPath error:nil]; ++i) {}
   }
 
   if (![fm fileExistsAtPath:jbPrefixedPath]) {
     // two cases: 1) this is the first time we need to create this path; 2) just removed an empty directory.
     JBLogDebug("Creating and Copying contents to jbPrefixedPath[%s].", jbPrefixedPath.UTF8String);
-    [fm createDirectoryAtPath:jbPrefixedPath withIntermediateDirectories:YES attributes:nil error:nil];
-    [fm removeItemAtPath:jbPrefixedPath error:nil];
-    [fm copyItemAtPath:sourcePath toPath:jbPrefixedPath error:nil];
+    for (int i = 0; i != retry &&
+          ![fm createDirectoryAtPath:jbPrefixedPath withIntermediateDirectories:YES attributes:nil error:nil]; ++i) {}
+    for (int i = 0; i != retry && [fm removeItemAtPath:jbPrefixedPath error:nil]; ++i) {}
+    for (int i = 0; i != retry && [fm copyItemAtPath:sourcePath toPath:jbPrefixedPath error:nil]; ++i) {}
   }
 
   JBLogDebug("Binding and mounting jbPrefixedPath[%s].", jbPrefixedPath.UTF8String);
@@ -259,7 +261,7 @@ int64_t updateBindMount() {
 
 	for (int i = 0; i != [todo count]; ++i) {
 		NSString* source = [todo objectAtIndex:i];
-		if (0 == registerJbPrefixedPath(source)) {
+		if (0 == registerJbPrefixedPath(source, 3)) {
 			[current_sources addObject:source];
 		}
 	}
@@ -271,7 +273,7 @@ int64_t updateBindMount() {
 }
 
 int64_t bindMountPath(NSString *sourcePath) {
-	registerJbPrefixedPath(sourcePath);
+	registerJbPrefixedPath(sourcePath, 3);
 
 	NSString *prefixersPlist = @"/var/mobile/Library/Preferences/page.liam.prefixers.plist";
 	NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile:prefixersPlist];
@@ -355,7 +357,7 @@ int64_t initEnvironment(NSDictionary *settings)
       for (int i = 0; i < [sourchPaths count]; i++) {
         // we do not care, if any of these paths failed to register.
         NSString *sourcePath = [sourchPaths objectAtIndex:i];
-        int ret = registerJbPrefixedPath(sourcePath);
+        int ret = registerJbPrefixedPath(sourcePath, 3);
         if (ret != 0) {
           JBLogDebug("Failed to bindMount: %s.", sourcePath.UTF8String);
         }
