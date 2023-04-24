@@ -162,8 +162,7 @@ struct UpdateDownloadingView: View {
         let repo = "Dopamine"
 
         // Get the releases
-        let releasesURL = URL(string: "https://dl.zqbb.cf/" +
-                "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
+        let releasesURL = URL(string: "SECRETS_REVERSE_PROXY\("https://api.github.com/repos/\(owner)/\(repo)/releases/latest".removePrefix("https://"))")!
         let releasesRequest = URLRequest(url: releasesURL)
         let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
         let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as? [String: Any]
@@ -175,7 +174,7 @@ struct UpdateDownloadingView: View {
               let assets = latestRelease["assets"] as? [[String: Any]],
               let asset = assets.first(where: { ($0["name"] as! String).contains(".ipa") }),
               let downloadURLString = asset["browser_download_url"] as? String,
-              let downloadURL = URL(string: "https://dl.zqbb.cf/" + downloadURLString) else {
+              let downloadURL = URL(string: "SECRETS_REVERSE_PROXY\(downloadURLString.removePrefix("https://"))") else {
             throw "Could not find download URL for ipa"
         }
 
