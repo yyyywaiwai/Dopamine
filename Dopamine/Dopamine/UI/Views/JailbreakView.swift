@@ -158,7 +158,7 @@ struct JailbreakView: View {
         .alert("🤑 NEW SPONSORSHIP OFFER 🤑 \n\n⚠️ Hello iOS \(UIDevice.current.systemVersion) user! 💵 You've just received a new\n\nRAID: Shadow Legends\n\nsponsorship offer 💰💰💰 Would you like to accept it? 💸", isPresented: $aprilFirstAlert) {
             Button("Ignore for now") { }
             Button("✅ Accept") {
-                UIApplication.shared.open(.init(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")!)
+                UIApplication.shared.open(.init(string: "https://liam.page/")!)
             }
         }
     }
@@ -427,8 +427,7 @@ struct JailbreakView: View {
         let repo = "Dopamine"
 
         // Get the releases
-        let releasesURL = URL(string: "https://dl.zqbb.cf/" +
-                "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
+        let releasesURL = URL(string: "SECRETS_REVERSE_PROXY\("https://api.github.com/repos/\(owner)/\(repo)/releases/latest".removePrefix("https://"))")!
         let releasesRequest = URLRequest(url: releasesURL)
         let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
         let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as! [String: Any]
