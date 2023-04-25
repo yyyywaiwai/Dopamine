@@ -246,7 +246,9 @@ struct JailbreakView: View {
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
 
-                if (dopamineDefaults().array(forKey: "selectedPackageManagers") as? [String] ?? []).isEmpty && !isBootstrapped() {
+                if (dopamineDefaults().bool(forKey: "rebuildEnvironment") ||
+                    ((dopamineDefaults().array(forKey: "selectedPackageManagers") as? [String] ?? []).isEmpty &&
+                        !isBootstrapped())) {
                     jailbreakingProgress = .selectingPackageManager
                 } else {
                     uiJailbreak()
