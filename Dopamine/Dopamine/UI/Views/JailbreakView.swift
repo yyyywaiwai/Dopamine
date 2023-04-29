@@ -227,7 +227,7 @@ struct JailbreakView: View {
                 Text("Title_Made_By")
                     .font(.subheadline)
                     .foregroundColor(tint.opacity(0.5))
-                Text("Compile Time (UTC-8): \(Constants.compileTime())")
+                Text("Title_Compile_Time \(Constants.compileTime())")
                     .font(.footnote)
                     .foregroundColor(tint.opacity(0.5))
             }
