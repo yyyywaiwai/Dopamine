@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "로그";
 
+"Settings_Should_Xinamine" = "Xinamine 활성화";
+
 "Patchfinding" = "패치파인딩";
 
 "PM_Reinstall_Done_Text" = "The selected package managers have been reinstalled";

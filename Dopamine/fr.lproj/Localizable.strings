@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Journaux détaillés (verbose)";
 
+"Settings_Should_Xinamine" = "Activer Xinamine";
+
 "Patchfinding" = "Recherche de patch";
 
 "PM_Reinstall_Done_Text" = "Le gestionnaire de paquets sélectionné a été réinstallé";

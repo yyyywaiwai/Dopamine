@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Log Verbose";
 
+"Settings_Should_Xinamine" = "Kích hoạt Xinamine";
+
 "Patchfinding" = "Đang tìm bản vá";
 
 "PM_Reinstall_Done_Text" = "Các trình quản lý gói đã chọn đã được cài đặt lại";

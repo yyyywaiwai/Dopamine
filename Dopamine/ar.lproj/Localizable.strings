@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "السجلات المطولة";
 
+"Settings_Should_Xinamine" = "تمكين Xinamine";
+
 "Patchfinding" = "العثور على التصحيح";
 
 "PM_Reinstall_Done_Text" = "تم إعادة تثبيت مديري الحزم المختارين";

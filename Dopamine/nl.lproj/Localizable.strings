@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Uitgebreide logs";
 
+"Settings_Should_Xinamine" = "Schakel Xinamine in";
+
 "Patchfinding" = "Patchfinding";
 
 "PM_Reinstall_Done_Text" = "The selected package managers have been reinstalled";

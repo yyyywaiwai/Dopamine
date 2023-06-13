@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Logs do Verbose";
 
+"Settings_Should_Xinamine" = "Habilitar Xinamine";
+
 "Patchfinding" = "Patchfinding";
 
 "PM_Reinstall_Done_Text" = "Os Gerenciadores de Pacotes selecionados foram reinstalados";

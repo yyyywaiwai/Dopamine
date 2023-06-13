@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Detaillierte Logs";
 
+"Settings_Should_Xinamine" = "Aktivieren Sie Xinamine";
+
 "Patchfinding" = "Finde Patches";
 
 "PM_Reinstall_Done_Text" = "Die ausgewählten Packet-Manager wurden neuinstalliert";

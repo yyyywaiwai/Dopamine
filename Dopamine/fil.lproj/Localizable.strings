@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Mga Verbose Logs";
 
+"Settings_Should_Xinamine" = "Paganahin ang Xinamine";
+
 "Patchfinding" = "Patchfinding";
 
 "PM_Reinstall_Done_Text" = "The selected package managers have been reinstalled";

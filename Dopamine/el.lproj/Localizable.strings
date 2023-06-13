@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Λεπτομερής καταγραφή";
 
+"Settings_Should_Xinamine" = "Ενεργοποίηση Xinamine";
+
 "Patchfinding" = "Patchfinding";
 
 "PM_Reinstall_Done_Text" = "Οι επιλεγμένες εφαρμογές διαχείρισης πακέτων επανεγκαταστάθηκαν";

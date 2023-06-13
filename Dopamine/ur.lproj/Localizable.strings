@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Verbose Logs";
 
+"Settings_Should_Xinamine" = "Xinamine کو فعال کریں۔";
+
 "Patchfinding" = "Patchfinding";
 
 "PM_Reinstall_Done_Text" = "The selected package managers have been reinstalled";

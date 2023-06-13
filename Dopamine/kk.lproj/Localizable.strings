@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Кеңейтілген журналдар";
 
+"Settings_Should_Xinamine" = "Xinamine қосыңыз";
+
 "Patchfinding" = "Патчтарды іздеу";
 
 "PM_Reinstall_Done_Text" = "The selected package managers have been reinstalled";

@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Докладні логи";
 
+"Settings_Should_Xinamine" = "Увімкніть Xinamine";
+
 "Patchfinding" = "Пошук патчів";
 
 "PM_Reinstall_Done_Text" = "The selected package managers have been reinstalled";

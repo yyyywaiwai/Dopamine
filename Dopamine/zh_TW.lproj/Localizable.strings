@@ -90,6 +90,8 @@
 
 "Settings_Verbose_Logs" = "詳細日誌";
 
+"Settings_Should_Xinamine" = "启用 Xinamine";
+
 "Patchfinding" = "正在尋找修正檔";
 
 "PM_Reinstall_Done_Text" = "選擇的套件管理器已重新安裝";

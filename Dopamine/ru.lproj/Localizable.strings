@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Расширенные логи";
 
+"Settings_Should_Xinamine" = "Включить Xinamine";
+
 "Patchfinding" = "Поиск патчей";
 
 "PM_Reinstall_Done_Text" = "Менеджеры пакетов переустановлены";

@@ -16,6 +16,8 @@ struct SettingsView: View {
     @AppStorage("verboseLogsEnabled", store: dopamineDefaults()) var verboseLogs: Bool = false
     @AppStorage("tweakInjectionEnabled", store: dopamineDefaults()) var tweakInjection: Bool = true
     @AppStorage("iDownloadEnabled", store: dopamineDefaults()) var enableiDownload: Bool = false
+    @AppStorage("shouldXinamine", store: dopamineDefaults()) var
+        shouldXinamine: Bool = false
     
     @Binding var isPresented: Bool
     
@@ -56,6 +58,7 @@ struct SettingsView: View {
                                 }
                             if !isJailbroken() {
                                 Toggle("Settings_Verbose_Logs", isOn: $verboseLogs)
+                                Toggle("Settings_Should_Xinamine", isOn: $shouldXinamine)
                             }
                         }
                         if isBootstrapped() {
