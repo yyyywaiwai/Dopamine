@@ -180,7 +180,7 @@ struct UpdateDownloadingView: View {
     }
     
     func downloadUpdateAndInstall() async throws {
-        let owner = "opa334"
+        let owner = "singlekeycap"
         let repo = "Dopamine"
         
         // Get the releases
