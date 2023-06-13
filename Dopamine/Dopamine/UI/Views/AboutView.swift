@@ -16,6 +16,8 @@ struct AboutView: View {
     ]
     
     let contributors = [
+        ("SingleKeycap", "http://github.com/singlekeycap"),
+        ("Sudo", "http://twitter.com/sudo1469"),
         ("opa334", "http://github.com/opa334"),
         ("Évelyne", "http://github.com/evelyneee"),
         ("sourcelocation", "http://github.com/sourcelocation"),
@@ -34,7 +36,7 @@ struct AboutView: View {
         VStack {
             VStack {
                 Button(action: {
-                    openURL(URL(string: "https://github.com/opa334/Dopamine")!)
+                    openURL(URL(string: "https://github.com/singlekeycap/Dopamine")!)
                 }) {
                     HStack {
                         Spacer()
@@ -50,7 +52,7 @@ struct AboutView: View {
                     .padding(.horizontal, 32)
                 }
                 Button(action: {
-                    openURL(URL(string: "https://github.com/opa334/Dopamine/LICENSE.md")!)
+                    openURL(URL(string: "https://github.com/singlekeycap/Dopamine/LICENSE.md")!)
                 }) {
                     HStack {
                         Spacer()
@@ -66,7 +68,7 @@ struct AboutView: View {
                     .padding(.horizontal, 32)
                 }
                 Button(action: {
-                    openURL(URL(string: "https://discord.gg/jb")!)
+                    openURL(URL(string: "https://discord.gg/cypwn")!)
                 }) {
                     HStack {
                         Spacer()

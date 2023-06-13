@@ -42,13 +42,13 @@
 
 "Credits_Button_Source_Code" = "Source Code";
 
-"Credits_Footer_Dopamine_Version %@\nOS:%@" = "Dopamine version %@\n%@";
+"Credits_Footer_Dopamine_Version %@\nOS:%@" = "Xinamine version %@\n%@";
 
 "Credits_Header_Special_Thanks" = "Special thanks:";
 
-"Credits_Made_By" = "Made by opa334, évelyne";
+"Credits_Made_By" = "Made by SingleKeycap, sudo";
 
-"Credits_Made_By_Subheadline" = "UI by sourcelocation\nLogo and icon by xerus";
+"Credits_Made_By_Subheadline" = "UI by SingleKeycap\nLogo and icon by SingleKeycap";
 
 "Finalizing Bootstrap" = "Finalizing Bootstrap";
 
@@ -116,7 +116,7 @@
 
 "Title_Changelog" = "Changelog";
 
-"Title_Made_By" = "by opa334, évelyne\nUI by sourceloc\nBased on Fugu15";
+"Title_Made_By" = "by SingleKEycap, sudo\nUI by SingleKeycap\nBased on Fugu15";
 
 "Title_Supported_iOS_Versions" = "iOS 15.0 - 15.4.1 | A12 - A15, M1";
 
