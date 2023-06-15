@@ -10,7 +10,6 @@ import Fugu15KernelExploit
 import CBindings
 
 var fakeRootPath: String? = nil
-var wifiEnabled: Bool = false
 public func rootifyPath(path: String) -> String? {
     if fakeRootPath == nil {
         fakeRootPath = Bootstrapper.locateExistingFakeRoot()
@@ -79,16 +78,8 @@ func isBootstrapped() -> Bool {
 
 func jailbreak(completion: @escaping (Error?) -> ()) {
     do {
-        if #available(iOS 15.4, *) {
-            // No Wifi fixup needed
-        }
-        else {
-            if wifiIsEnabled() {
-                wifiEnabled = true
-                setWifiEnabled(false)
-                Logger.log("Disabling Wi-Fi", isStatus: true)
-                sleep(5)
-            }
+        handleWifiFixBeforeJailbreak {message in 
+            Logger.log(message, isStatus: true)
         }
 
         Logger.log("Launching kexploitd", isStatus: true)
@@ -105,16 +96,6 @@ func jailbreak(completion: @escaping (Error?) -> ()) {
                 }
 
                 Logger.log(toPrint, isStatus: !verbose)
-            }
-        }
-
-        if #available(iOS 15.4, *) {
-            // No Wifi fixup needed
-        }
-        else {
-            if wifiEnabled {
-                setWifiEnabled(true)
-                Logger.log("Enabling Wi-Fi", isStatus: true)
             }
         }
         
