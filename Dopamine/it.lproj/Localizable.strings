@@ -88,6 +88,8 @@
 
 "Settings_Verbose_Logs" = "Log Dettagliati";
 
+"Settings_Should_Xinamine" = "Abilita Xinamine";
+
 "Patchfinding" = "Scoprendo patch";
 
 "PM_Reinstall_Done_Text" = "I gestori di pacchetti selezionati sono stati reinstallati";
