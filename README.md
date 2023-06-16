@@ -4,4 +4,4 @@
 
 Rootless arm64e jailbreak for iOS 15.0 - 15.4.1.
 
-Official website / download: https://ipa.cypwn.xyz
+Official website / download: https://ipa.cypwn.xyz/#ts_tab
