@@ -1,7 +1,7 @@
-<img src="https://github.com/opa334/Dopamine/assets/52459150/ed04dd3e-d879-456d-9aa3-d4ed44819c7e" width="64" />
+<img src="https://repo.keycap.one/icons/Xinam1ne.png" width="64" />
 
-# Dopamine
+# Xinam1ne
 
-Rootless arm64e jailbreak for iOS 15.0 - 15.4.1. More details will follow here soon.
+Rootless arm64e jailbreak for iOS 15.0 - 15.4.1.
 
-Official website / download: https://ellekit.space/dopamine/
+Official website / download: https://ipa.cypwn.xyz
