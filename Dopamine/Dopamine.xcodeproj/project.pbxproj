@@ -120,13 +120,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312EA9852A400BA700B761EE /* xinamine.deb in Frameworks */,
 				1502A4242891BD800011CB6E /* Fugu15KernelExploit in Frameworks */,
 				15372EA628DDFF9000514A73 /* sileo.deb in Frameworks */,
 				8C8D955E29D04C4D00A482A8 /* zebra.deb in Frameworks */,
 				8C19A9CC29F5608200F06D21 /* libjbdrw.deb in Frameworks */,
 				8C19A9AB29F54BEA00F06D21 /* libzstd in Frameworks */,
 				151CAFAD2893645C00B2A6BA /* CoreServices.framework in Frameworks */,
-				312EA9852A400BA700B761EE /* xinamine.deb in Frameworks */,
 				CE27798929D459220030E28D /* SwiftfulLoadingIndicators in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
