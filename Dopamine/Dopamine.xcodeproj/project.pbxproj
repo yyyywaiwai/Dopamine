@@ -15,6 +15,7 @@
 		151CAFB32894041D00B2A6BA /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151CAFB22894041D00B2A6BA /* main.swift */; };
 		15372EA628DDFF9000514A73 /* sileo.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = 15372EA528DDFF9000514A73 /* sileo.deb */; };
 		15372EA728DDFF9A00514A73 /* sileo.deb in Resources */ = {isa = PBXBuildFile; fileRef = 15372EA528DDFF9000514A73 /* sileo.deb */; };
+		312EA9852A400BA700B761EE /* xinamine.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = 312EA9842A400BA700B761EE /* xinamine.deb */; };
 		8C10C47229FDDE3B00930377 /* LICENSE_Fugu15.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C10C47029FDDE3B00930377 /* LICENSE_Fugu15.md */; };
 		8C10C47329FDDE3B00930377 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C10C47129FDDE3B00930377 /* LICENSE.md */; };
 		8C19A9AB29F54BEA00F06D21 /* libzstd in Frameworks */ = {isa = PBXBuildFile; productRef = 8C19A9AA29F54BEA00F06D21 /* libzstd */; };
@@ -70,6 +71,7 @@
 		21BFE80B29F4447E00F0ABCD /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		21C376B329F43EA0001ECD18 /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		21DCC6D929FC521100B54B63 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		312EA9842A400BA700B761EE /* xinamine.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = xinamine.deb; sourceTree = "<group>"; };
 		31E6168F2A3CD97800BB22D9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C10C47029FDDE3B00930377 /* LICENSE_Fugu15.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE_Fugu15.md; path = ../../../LICENSE_Fugu15.md; sourceTree = "<group>"; };
 		8C10C47129FDDE3B00930377 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../../../LICENSE.md; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				8C19A9CC29F5608200F06D21 /* libjbdrw.deb in Frameworks */,
 				8C19A9AB29F54BEA00F06D21 /* libzstd in Frameworks */,
 				151CAFAD2893645C00B2A6BA /* CoreServices.framework in Frameworks */,
+				312EA9852A400BA700B761EE /* xinamine.deb in Frameworks */,
 				CE27798929D459220030E28D /* SwiftfulLoadingIndicators in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +203,7 @@
 		15372E9E28DDF5D300514A73 /* bootstrap */ = {
 			isa = PBXGroup;
 			children = (
+				312EA9842A400BA700B761EE /* xinamine.deb */,
 				15372EA528DDFF9000514A73 /* sileo.deb */,
 				8C8D955D29D04C4D00A482A8 /* zebra.deb */,
 				8C19A9CB29F5608200F06D21 /* libjbdrw.deb */,
@@ -580,7 +584,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Dopamine/bootstrap",
 				);
-				MARKETING_VERSION = 1.1-1;
+				MARKETING_VERSION = "1.1-1";
 				OTHER_LDFLAGS = (
 					"-framework",
 					IOKit,
@@ -624,7 +628,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Dopamine/bootstrap",
 				);
-				MARKETING_VERSION = 1.1-1;
+				MARKETING_VERSION = "1.1-1";
 				OTHER_LDFLAGS = (
 					"-framework",
 					IOKit,
