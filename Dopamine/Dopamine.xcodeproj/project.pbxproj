@@ -16,6 +16,7 @@
 		15372EA628DDFF9000514A73 /* sileo.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = 15372EA528DDFF9000514A73 /* sileo.deb */; };
 		15372EA728DDFF9A00514A73 /* sileo.deb in Resources */ = {isa = PBXBuildFile; fileRef = 15372EA528DDFF9000514A73 /* sileo.deb */; };
 		312EA9852A400BA700B761EE /* xinamine.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = 312EA9842A400BA700B761EE /* xinamine.deb */; };
+		312EA9862A400E2500B761EE /* xinamine.deb in Resources */ = {isa = PBXBuildFile; fileRef = 312EA9842A400BA700B761EE /* xinamine.deb */; };
 		8C10C47229FDDE3B00930377 /* LICENSE_Fugu15.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C10C47029FDDE3B00930377 /* LICENSE_Fugu15.md */; };
 		8C10C47329FDDE3B00930377 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C10C47129FDDE3B00930377 /* LICENSE.md */; };
 		8C19A9AB29F54BEA00F06D21 /* libzstd in Frameworks */ = {isa = PBXBuildFile; productRef = 8C19A9AA29F54BEA00F06D21 /* libzstd */; };
@@ -360,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312EA9862A400E2500B761EE /* xinamine.deb in Resources */,
 				8C19A9CD29F5659700F06D21 /* libjbdrw.deb in Resources */,
 				8C8D955F29D04CD100A482A8 /* zebra.deb in Resources */,
 				8CBDF90929FEEF4400988663 /* LICENSE_libc.md in Resources */,
