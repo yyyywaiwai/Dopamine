@@ -58,6 +58,8 @@ struct JailbreakView: View {
     @State var userspaceRebootAlert = false
     @State var rebootAlert = false
 
+    @State private var uptime_str = ""
+
     @AppStorage("verboseLogsEnabled", store: dopamineDefaults()) var advancedLogsByDefault: Bool = false
     @State var advancedLogsTemporarilyEnabled: Bool = false
 
@@ -171,6 +173,9 @@ struct JailbreakView: View {
             .animation(.default, value: showingUpdatePopupType == nil)
         }
         .onAppear {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                uptime_str = uptime()
+            }
             Task {
                 do {
                     let dpDefaults = dopamineDefaults()
@@ -228,6 +233,9 @@ struct JailbreakView: View {
                     .font(.subheadline)
                     .foregroundColor(tint.opacity(0.5))
                 Text("Title_Compile_Time \(Constants.compileTime())")
+                    .font(.footnote)
+                    .foregroundColor(tint.opacity(0.5))
+                Text("uptime_str")
                     .font(.footnote)
                     .foregroundColor(tint.opacity(0.5))
             }
@@ -596,6 +604,17 @@ struct JailbreakView: View {
         } else {
             //
         }
+    }
+
+    func uptime() -> String {
+      var ts = timespec()
+      clock_gettime(CLOCK_MONOTONIC_RAW, &ts)
+      let ts_s = Int(ts.tv_sec)
+      let SS = ts_s % 60
+      let MM = (ts_s / 60) % 60
+      let HH = (ts_s / (60 * 60)) % 24
+      let dd = ts_s / (60 * 60 * 24)
+      return "System_Uptime: \(dd) days \(HH):\(MM):\(SS)"
     }
 }
 
