@@ -197,3 +197,5 @@
 "Sure_Reboot_Message" = "Rebooting the device will exit the jailbroken environment. You will need to reopen the Dopamine jailbreak to re-enter the jailbroken state.";
 
 "Options_bridgeToXinA" = "Bridge to Xina (beta)";
+
+"System_Uptime: %@ days %@:%@:%@" = "System uptime: %@ days %@:%@:%@";

@@ -213,3 +213,5 @@
 "Options_Block_Dopamine_Updates" = "屏蔽更新";
 
 "Options_bridgeToXinA" = "連接 XinA (beta)";
+
+"System_Uptime: %@ days %@:%@:%@" = "系統已運作 %@ 天 %@ 時 %@ 分 %@ 秒";
