@@ -23,6 +23,7 @@ struct SettingsView: View {
     @AppStorage("pathMappingEnabled", store: dopamineDefaults()) var pathMappingEnabled: Bool = true
     @AppStorage("blockDopamineUpdates", store: dopamineDefaults()) var blockDopamineUpdates: Bool = false
     @AppStorage("bridgeToXinA", store: dopamineDefaults()) var bridgeToXinA: Bool = false
+    @AppStorage("presetUptimeInDay", store: dopamineDefaults()) var presetUptimeInDay: Int = 0
 
     @State var pathMappingAlertShown = false
     @State var pathMappingInput = ""
