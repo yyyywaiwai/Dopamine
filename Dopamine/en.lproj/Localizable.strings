@@ -198,4 +198,4 @@
 
 "Options_bridgeToXinA" = "Bridge to Xina (beta)";
 
-"System_Uptime: %@ days %@:%@:%@" = "System uptime: %@ days %@:%@:%@";
+"System_Uptime %d %d %d %d" = "System uptime: %d days %d:%d:%d";

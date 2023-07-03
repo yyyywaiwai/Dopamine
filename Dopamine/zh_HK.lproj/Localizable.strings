@@ -214,4 +214,4 @@
 
 "Options_bridgeToXinA" = "連接 XinA (beta)";
 
-"System_Uptime: %@ days %@:%@:%@" = "系統已運作 %@ 天 %@ 時 %@ 分 %@ 秒";
+"System_Uptime %d %d %d %d" = "系統已運作 %d 天 %d 時 %d 分 %d 秒";
