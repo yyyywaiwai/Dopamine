@@ -24,6 +24,7 @@ struct SettingsView: View {
     @AppStorage("blockDopamineUpdates", store: dopamineDefaults()) var blockDopamineUpdates: Bool = false
     @AppStorage("bridgeToXinA", store: dopamineDefaults()) var bridgeToXinA: Bool = false
     @AppStorage("presetUptimeInDay", store: dopamineDefaults()) var presetUptimeInDay: Int = 0
+    @AppStorage("developmentMode", store: dopamineDefaults()) var developmentMode: Bool = false
 
     @State var pathMappingAlertShown = false
     @State var pathMappingInput = ""
