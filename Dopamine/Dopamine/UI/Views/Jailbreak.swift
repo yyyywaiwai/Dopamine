@@ -21,7 +21,7 @@ public func rootifyPath(path: String) -> String? {
 }
 
 func getBootInfoValue(key: String) -> Any? {
-    guard let bootInfoPath = rootifyPath(path: "/basebin/boot_info.plist") else {
+    guard let bootInfoPath = rootifyPath(path: "/var/.boot_info.plist") else {
         return nil
     }
     guard let bootInfo = NSDictionary(contentsOfFile: bootInfoPath) else {
@@ -31,10 +31,10 @@ func getBootInfoValue(key: String) -> Any? {
 }
 
 func respring() {
-    guard let sbreloadPath = rootifyPath(path: "/usr/bin/sbreload") else {
-        return
-    }
-    _ = execCmd(args: [sbreloadPath])
+    // guard let sbreloadPath = rootifyPath(path: "/usr/bin/sbreload") else {
+    //     return
+    // }
+    _ = execCmd(args: [rootifyPath(path: "/usr/bin/killall")!, "SpringBoard"])
 }
 
 func userspaceReboot() {
@@ -176,7 +176,7 @@ func jailbrokenUpdateTweakInjectionPreference() {
 
 func jailbrokenUpdateIDownloadEnabled() {
     let iDownloadEnabled = dopamineDefaults().bool(forKey: "iDownloadEnabled")
-    _ = execCmd(args: [rootifyPath(path: "basebin/jbinit")!, iDownloadEnabled ? "start_idownload" : "stop_idownload"])
+    _ = execCmd(args: [rootifyPath(path: "/basebin/jbinit")!, iDownloadEnabled ? "start_idownload" : "stop_idownload"])
 }
 
 func changeMobilePassword(newPassword: String) {
@@ -259,20 +259,20 @@ func isSandboxed() -> Bool {
 
 func bindMount(path: String) {
     if path.count > 0 && !(path.starts(with:"/var/jb/")) {
-        _ = execCmd(args: [jbrootPath("/basebin/jbctl"), "bindmount_path", path])
+        _ = execCmd(args: [rootifyPath(path: "/basebin/jbctl")!, "bindmount_path", path])
     }
 }
 
 func bindUnmount(path: String) {
     if path.count > 0 && !(path.starts(with:"/var/jb/")) {
-        _ = execCmd(args: [jbrootPath("/basebin/jbctl"), "bindunmount_path", path])
+        _ = execCmd(args: [rootifyPath(path: "/basebin/jbctl")!, "bindunmount_path", path])
     }
 }
 
 func isPathMappingEnabled() -> Bool {
     let dpDefaults = dopamineDefaults()
     let enableMount = dpDefaults.bool(forKey: "pathMappingEnabled")
-    let prefixersPlist = jbrootPath("/var/mobile/Library/Preferences/page.liam.prefixers.plist")!
+    let prefixersPlist = rootifyPath(path: "/var/mobile/Library/Preferences/page.liam.prefixers.plist")!
     let isMappingPlistExists = FileManager.default.fileExists(atPath: prefixersPlist)
     return enableMount && isMappingPlistExists;
 }
